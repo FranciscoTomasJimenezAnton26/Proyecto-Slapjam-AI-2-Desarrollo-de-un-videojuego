@@ -50,15 +50,16 @@ Otras opciones (por si Gemini falla):
 
 ## Checklist antes del jueves
 - [x] Cuenta en itch.io creada
-- [ ] Plantilla subida a itch.io como borrador y probada en el móvil
+- [x] Plantilla subida a itch.io como borrador y probada en el móvil (lunes 26: perfecto)
 - [x] Herramienta de imágenes elegida: **Gemini** (apoyo: Canva Pro)
 - [ ] Marca de agua visible de Gemini desactivada (Ajustes → Media Watermark)
 - [ ] Condiciones comerciales de Gemini revisadas en los términos oficiales
 - [ ] Cuenta de ElevenLabs (plan con uso comercial si se usa)
 - [ ] Herramienta de música elegida y licencia revisada: ________
 - [ ] Unido al Discord de Slapjam para ver el tema al momento
-- [ ] Probado `tools/empaquetar.bat` en Windows (crea `build/juego-itch.zip`)
-- [ ] Probado `tools/sprites.html` con una imagen de prueba de la herramienta elegida
+- [ ] Apuntado a la jam (botón **Join jam** en itch.io/jam/slapjam-ai-2)
+- [x] Probado `tools/empaquetar.bat` en Windows (crea `build/juego-itch.zip`)
+- [x] Probado `tools/sprites.html` con una imagen de prueba de Gemini (fondo verde)
 
 ## Créditos (rellenar durante la jam)
 | Herramienta | Para qué | Plan |
