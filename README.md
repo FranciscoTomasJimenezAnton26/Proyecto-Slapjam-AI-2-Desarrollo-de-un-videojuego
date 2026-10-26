@@ -1,5 +1,7 @@
 # Slapjam #2 — plantilla base
 
+📚 **Toda la planificación está en [`docs/`](docs/README.md).**
+
 Plantilla vacía en **Phaser 3** para un juego de navegador en formato móvil vertical (720×1280) con controles táctiles. No contiene el juego: solo la base técnica, para empezar a construir en cuanto se anuncie el tema (jueves 29 de octubre, 16:00 hora de Madrid).
 
 ## Cómo probarlo
@@ -21,12 +23,14 @@ Descarga `phaser.min.js` (versión 3.88.2) desde https://cdn.jsdelivr.net/npm/ph
 
 ```
 index.html              → página que carga todo
+docs/                   → plan, reglas, herramientas, guía de estilo, guion de la jam y página de itch
 lib/                    → Phaser (opcional, ver arriba)
 assets/                 → imágenes y sonidos del juego
 src/config.js           → ajustes: tamaño, tiempos, colores, fuente
-src/audio.js            → sonidos provisionales + desbloqueo de audio en móvil
+src/audio.js            → sonidos (archivos reales o provisionales), música, silencio y desbloqueo en móvil
 src/fx.js               → "juice": temblor, destello, rebote, textos, partículas, hit stop
 src/swipe.js            → detección de deslizamientos y toques
+src/ui.js               → botón de sonido y botones con rebote
 src/scenes/BootScene.js     → carga de recursos
 src/scenes/MenuScene.js     → pantalla de título
 src/scenes/PlayScene.js     → juego (ahora: demo de prueba con tarjetas)
@@ -38,7 +42,7 @@ Cada **escena** es una pantalla del juego. Su método `create()` se ejecuta al e
 
 ## Publicar en itch.io
 
-1. Comprime en un `.zip` el **contenido** de la carpeta (que `index.html` quede en la raíz del zip, no dentro de otra carpeta).
+1. Comprime en un `.zip` `index.html`, `lib`, `src` y `assets` (que `index.html` quede en la raíz del zip, no dentro de otra carpeta). La carpeta `docs` no hace falta.
 2. En itch.io: **Upload new project** → *Kind of project*: **HTML** → sube el zip y marca **This file will be played in the browser**.
 3. En *Embed options*:
    - Viewport: **720 × 1280** (o algo más pequeño con la misma proporción, como 450 × 800, para que quepa en pantallas de ordenador).

@@ -28,6 +28,8 @@ class PlayScene extends Phaser.Scene {
     this.card = this.add.image(W / 2, H / 2, 'card');
     this.nextCard();
 
+    UI.muteButton(this, W - 60, 160);
+
     // Entrada
     Swipe.attach(this, { onSwipe: (dir) => this.handleSwipe(dir) });
 
@@ -64,7 +66,7 @@ class PlayScene extends Phaser.Scene {
     const correct = (dir === 'right') === this.cardIsGood;
     const { WIDTH: W } = CONFIG;
 
-    Sfx.whoosh();
+    Sfx.play(this, 'whoosh');
     this.tweens.add({
       targets: this.card,
       x: dir === 'right' ? W + 300 : -300,
@@ -79,13 +81,13 @@ class PlayScene extends Phaser.Scene {
       Fx.punch(this, this.scoreText, 0.3);
       Fx.popText(this, this.card.x, this.card.y - 260, '+1', '#6cff8a');
       Fx.burst(this, this.card.x, this.card.y, CONFIG.COLORS.good);
-      Sfx.good();
+      Sfx.play(this, 'good');
     } else {
       Fx.shake(this, 0.02, 220);
       Fx.flash(this, CONFIG.COLORS.bad, 150);
       Fx.hitStop(this, 80);
       Fx.popText(this, this.card.x, this.card.y - 260, '¡FALLO!', '#ff4d6d');
-      Sfx.bad();
+      Sfx.play(this, 'bad');
     }
   }
 

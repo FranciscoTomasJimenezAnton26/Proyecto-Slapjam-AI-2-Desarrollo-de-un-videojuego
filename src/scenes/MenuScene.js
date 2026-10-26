@@ -20,6 +20,8 @@ class MenuScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '24px', color: COLORS.muted,
     }).setOrigin(0.5);
 
+    UI.muteButton(this);
+
     this.input.once('pointerdown', () => this.begin());
     this.input.keyboard?.once('keydown-SPACE', () => this.begin());
   }
@@ -28,7 +30,7 @@ class MenuScene extends Phaser.Scene {
     if (this.starting) return;
     this.starting = true;
     Sfx.unlock();
-    Sfx.tap();
+    Sfx.play(this, 'tap');
     this.cameras.main.fadeOut(200, 0, 0, 0);
     this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Play'));
   }

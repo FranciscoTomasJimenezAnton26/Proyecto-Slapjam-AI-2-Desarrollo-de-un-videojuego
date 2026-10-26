@@ -30,9 +30,11 @@ class GameOverScene extends Phaser.Scene {
     }).setOrigin(0.5);
     this.tweens.add({ targets: again, alpha: 0.3, duration: 700, yoyo: true, repeat: -1 });
 
+    UI.muteButton(this);
+
     // Pequeña pausa para que un toque accidental no reinicie al instante
     this.time.delayedCall(500, () => {
-      this.input.once('pointerdown', () => { Sfx.tap(); this.scene.start('Play'); });
+      this.input.once('pointerdown', () => { Sfx.play(this, 'tap'); this.scene.start('Play'); });
       this.input.keyboard?.once('keydown-SPACE', () => this.scene.start('Play'));
     });
   }

@@ -1,7 +1,10 @@
 // Carga de recursos. Por ahora genera texturas provisionales por código.
 // Durante la jam aquí cargaremos las imágenes y sonidos reales:
 //   this.load.image('puerta', 'assets/puerta.png');
-//   this.load.audio('portazo', 'assets/portazo.mp3');
+//   this.load.audio('bad', ['assets/sfx/portazo.ogg', 'assets/sfx/portazo.mp3']);
+//   this.load.audio('musica', 'assets/music/juego.mp3');
+// Si un sonido se carga con la misma clave que uno provisional ('tap', 'good', 'bad', 'whoosh'),
+// Sfx.play() usará automáticamente el archivo real.
 class BootScene extends Phaser.Scene {
   constructor() { super('Boot'); }
 
