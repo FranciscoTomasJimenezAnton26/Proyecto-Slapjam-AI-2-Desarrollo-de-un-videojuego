@@ -3,10 +3,10 @@
 Se abren con **Live Server** igual que el juego (clic derecho → Open with Live Server). Funcionan sin internet y no suben nada a ningún sitio: todo se procesa en tu navegador.
 
 ## sprites.html — imágenes de IA listas para el juego
-1. Genera las imágenes con el **fondo morado liso** de la guía de estilo (`docs/04-guia-de-estilo-y-prompts.md`).
+1. Genera las imágenes con el **fondo verde croma** (o magenta si el personaje lleva verde) de la guía de estilo (`docs/04-guia-de-estilo-y-prompts.md`).
 2. Arrastra a la herramienta **una pareja (o grupo) cada vez**: el niño y su versión monstruo juntos, con **Mismo recorte para todas** marcado. Así las dos salen del mismo tamaño y en la misma posición, y la pista no "mueve" al personaje.
 3. Revisa el resultado sobre el fondo de cuadros:
-   - ¿Queda un halo morado? Sube la **tolerancia**.
+   - ¿Queda un halo verde? Sube la **tolerancia**.
    - ¿Se borran partes del personaje? Bájala.
 4. **Descargar todas**, mueve los PNG a `assets/img/` y pulsa **Vaciar** antes de la siguiente pareja.
 
