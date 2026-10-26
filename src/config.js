@@ -3,8 +3,9 @@ const CONFIG = {
   WIDTH: 720,            // resolución vertical recomendada por la jam
   HEIGHT: 1280,
   ROUND_SECONDS: 30,     // duración de la partida de prueba
-  SWIPE_MIN_DISTANCE: 60, // píxeles mínimos para contar como deslizamiento
-  SWIPE_MAX_TIME: 600,    // ms máximos que puede durar un deslizamiento
+  SWIPE_COMMIT_DISTANCE: 140, // al recorrer esto, el swipe se dispara sin esperar a soltar el dedo
+  SWIPE_MIN_DISTANCE: 60,     // distancia mínima de un "flick" corto y rápido
+  SWIPE_MAX_TIME: 400,        // duración máxima de ese flick (ms)
   STORAGE_KEY: 'slapjam2-best',
 
   COLORS: {

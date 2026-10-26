@@ -10,7 +10,6 @@ class PlayScene extends Phaser.Scene {
 
     this.score = 0;
     this.timeLeft = CONFIG.ROUND_SECONDS;
-    this.busy = false;
 
     // Interfaz
     this.scoreText = this.add.text(40, 40, '0', {
@@ -24,14 +23,18 @@ class PlayScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '36px', color: COLORS.muted,
     }).setOrigin(0.5);
 
-    // Tarjeta
+    // Tarjeta: sigue al dedo mientras arrastras y sale volando al deslizar
     this.card = this.add.image(W / 2, H / 2, 'card');
     this.nextCard();
 
     UI.muteButton(this, W - 60, 160);
 
     // Entrada
-    Swipe.attach(this, { onSwipe: (dir) => this.handleSwipe(dir) });
+    Swipe.attach(this, {
+      onSwipe: (dir) => this.handleSwipe(dir),
+      onDrag: (dx) => this.card.setPosition(W / 2 + dx, H / 2).setAngle(dx * 0.05),
+      onCancel: () => this.tweens.add({ targets: this.card, x: W / 2, angle: 0, duration: 150, ease: 'Back.Out' }),
+    });
 
     // Cuenta atrás
     this.time.addEvent({
@@ -47,48 +50,49 @@ class PlayScene extends Phaser.Scene {
   nextCard() {
     const { WIDTH: W, HEIGHT: H, COLORS } = CONFIG;
     this.cardIsGood = Math.random() < 0.5;
+    this.tweens.killTweensOf(this.card);
     this.card
-      .setPosition(W / 2, H / 2 + 60)
+      .setPosition(W / 2, H / 2 + 40)
       .setAngle(0)
-      .setAlpha(0)
-      .setScale(0.8)
+      .setAlpha(0.3)
+      .setScale(0.85)
       .setTint(this.cardIsGood ? COLORS.good : COLORS.bad);
-    this.tweens.add({
-      targets: this.card, y: H / 2, alpha: 1, scale: 1, duration: 220, ease: 'Back.Out',
-      onComplete: () => { this.busy = false; },
-    });
+    // La nueva tarjeta acepta gestos desde el primer instante: la animación es solo visual
+    this.tweens.add({ targets: this.card, y: H / 2, alpha: 1, scale: 1, duration: 160, ease: 'Back.Out' });
   }
 
   handleSwipe(dir) {
-    if (this.busy || (dir !== 'left' && dir !== 'right')) return;
-    this.busy = true;
+    if (dir !== 'left' && dir !== 'right') return;
 
     const correct = (dir === 'right') === this.cardIsGood;
     const { WIDTH: W } = CONFIG;
 
-    Sfx.play(this, 'whoosh');
+    // Una copia sale volando desde donde está el dedo y la tarjeta real se recicla al momento
+    const flying = this.add.image(this.card.x, this.card.y, 'card')
+      .setTint(this.card.tintTopLeft).setAngle(this.card.angle).setScale(this.card.scale);
     this.tweens.add({
-      targets: this.card,
+      targets: flying,
       x: dir === 'right' ? W + 300 : -300,
-      angle: dir === 'right' ? 25 : -25,
-      duration: 220, ease: 'Quad.In',
-      onComplete: () => this.nextCard(),
+      angle: dir === 'right' ? 30 : -30,
+      duration: 200, ease: 'Quad.In',
+      onComplete: () => flying.destroy(),
     });
 
+    Sfx.play(this, 'whoosh');
     if (correct) {
       this.score++;
       this.scoreText.setText(String(this.score));
       Fx.punch(this, this.scoreText, 0.3);
-      Fx.popText(this, this.card.x, this.card.y - 260, '+1', '#6cff8a');
-      Fx.burst(this, this.card.x, this.card.y, CONFIG.COLORS.good);
+      Fx.popText(this, flying.x, flying.y - 260, '+1', '#6cff8a');
+      Fx.burst(this, flying.x, flying.y, CONFIG.COLORS.good);
       Sfx.play(this, 'good');
     } else {
       Fx.shake(this, 0.02, 220);
       Fx.flash(this, CONFIG.COLORS.bad, 150);
-      Fx.hitStop(this, 80);
-      Fx.popText(this, this.card.x, this.card.y - 260, '¡FALLO!', '#ff4d6d');
+      Fx.popText(this, flying.x, flying.y - 260, '¡FALLO!', '#ff4d6d');
       Sfx.play(this, 'bad');
     }
+    this.nextCard();
   }
 
   endRound() {
