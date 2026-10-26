@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0a14">
+  <title>Slapjam #2</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0a14;
+      overflow: hidden;
+      touch-action: none;          /* evita zoom y scroll al deslizar en el móvil */
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #game { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+
+  <!-- Phaser: primero intenta la copia local (lib/phaser.min.js) y, si no existe, la CDN. -->
+  <script src="lib/phaser.min.js"></script>
+  <script>
+    if (!window.Phaser) {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Código del juego (scripts normales, sin build: funciona con Live Server o subido a itch.io) -->
+  <script src="src/config.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/fx.js"></script>
+  <script src="src/swipe.js"></script>
+  <script src="src/scenes/BootScene.js"></script>
+  <script src="src/scenes/MenuScene.js"></script>
+  <script src="src/scenes/PlayScene.js"></script>
+  <script src="src/scenes/GameOverScene.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
