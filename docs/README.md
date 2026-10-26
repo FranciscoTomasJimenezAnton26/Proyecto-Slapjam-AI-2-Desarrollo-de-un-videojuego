@@ -11,4 +11,6 @@ Todo lo que necesitas tener a mano durante la Slapjam #2.
 | [05-guion-de-la-jam.md](05-guion-de-la-jam.md) | Qué hacer hora a hora del jueves al sábado |
 | [06-pagina-itch.md](06-pagina-itch.md) | Texto de la página de itch.io, créditos y pasos de publicación |
 
+**Herramientas:** en [`tools/`](../tools/README.md) hay utilidades para procesar las imágenes y sonidos de IA y para crear el zip de itch.io.
+
 **Regla de oro:** antes del jueves a las 16:00 solo preparamos herramientas, plantilla y documentación. El juego en sí (diseño final, código del juego, imágenes y sonidos definitivos) se crea durante la jam.

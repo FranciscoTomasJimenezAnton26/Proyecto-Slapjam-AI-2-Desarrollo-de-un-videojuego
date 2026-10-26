@@ -35,6 +35,12 @@ Horas en hora de Madrid. Es una guía, no una obligación: si algo va más rápi
 | 12:00–13:00 | Subida final, prueba completa en el móvil y en el ordenador. **Entregar a la jam** |
 | 13:00–16:00 | Margen para imprevistos. Después del cierre no se puede tocar nada |
 
+## Flujo de recursos (cada imagen o sonido nuevo)
+1. Generar con la herramienta de IA usando los prompts de `04-guia-de-estilo-y-prompts.md`.
+2. Procesar con `tools/sprites.html` o `tools/sonidos.html`.
+3. Copiar a `assets/img/` o `assets/sfx/` y añadir la línea en `src/assets.js`.
+4. Para subir a itch: `tools/empaquetar.bat`.
+
 ## Reglas para no perder la jam
 1. **Nada nuevo después del viernes por la noche**, solo pulido.
 2. Si algo lleva más de 45 minutos atascado, se simplifica o se quita.

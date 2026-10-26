@@ -6,7 +6,7 @@ class GameOverScene extends Phaser.Scene {
 
   create() {
     const { WIDTH: W, HEIGHT: H, COLORS, FONT } = CONFIG;
-    this.cameras.main.fadeIn(200, 0, 0, 0);
+    Fx.fadeIn(this);
 
     const best = this.saveBest(this.score);
     const isRecord = this.score > 0 && this.score === best;
@@ -34,8 +34,8 @@ class GameOverScene extends Phaser.Scene {
 
     // Pequeña pausa para que un toque accidental no reinicie al instante
     this.time.delayedCall(500, () => {
-      this.input.once('pointerdown', () => { Sfx.play(this, 'tap'); this.scene.start('Play'); });
-      this.input.keyboard?.once('keydown-SPACE', () => this.scene.start('Play'));
+      this.input.once('pointerdown', () => { Sfx.play(this, 'tap'); Fx.goTo(this, 'Play'); });
+      this.input.keyboard?.once('keydown-SPACE', () => Fx.goTo(this, 'Play'));
     });
   }
 

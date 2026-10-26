@@ -6,7 +6,7 @@ class PlayScene extends Phaser.Scene {
 
   create() {
     const { WIDTH: W, HEIGHT: H, COLORS, FONT } = CONFIG;
-    this.cameras.main.fadeIn(200, 0, 0, 0);
+    Fx.fadeIn(this);
 
     this.score = 0;
     this.timeLeft = CONFIG.ROUND_SECONDS;
@@ -94,6 +94,6 @@ class PlayScene extends Phaser.Scene {
   endRound() {
     this.time.removeAllEvents();
     this.input.removeAllListeners();
-    this.scene.start('GameOver', { score: this.score });
+    Fx.goTo(this, 'GameOver', { score: this.score });
   }
 }

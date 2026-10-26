@@ -23,15 +23,18 @@ Descarga `phaser.min.js` (versión 3.88.2) desde https://cdn.jsdelivr.net/npm/ph
 
 ```
 index.html              → página que carga todo
+tools/                  → herramientas: procesar imágenes y sonidos de IA, crear el zip para itch
 docs/                   → plan, reglas, herramientas, guía de estilo, guion de la jam y página de itch
 lib/                    → Phaser (opcional, ver arriba)
 assets/                 → imágenes y sonidos del juego
 src/config.js           → ajustes: tamaño, tiempos, colores, fuente
+src/assets.js           → lista de imágenes y sonidos que se cargan al empezar
 src/audio.js            → sonidos (archivos reales o provisionales), música, silencio y desbloqueo en móvil
 src/fx.js               → "juice": temblor, destello, rebote, textos, partículas, hit stop
 src/swipe.js            → detección de deslizamientos y toques
 src/ui.js               → botón de sonido y botones con rebote
-src/scenes/BootScene.js     → carga de recursos
+src/scenes/BootScene.js     → carga de recursos (lee src/assets.js)
+src/scenes/DebugScene.js    → panel de depuración (tecla D o index.html?debug)
 src/scenes/MenuScene.js     → pantalla de título
 src/scenes/PlayScene.js     → juego (ahora: demo de prueba con tarjetas)
 src/scenes/GameOverScene.js → fin de partida, récord y reintento
@@ -42,7 +45,7 @@ Cada **escena** es una pantalla del juego. Su método `create()` se ejecuta al e
 
 ## Publicar en itch.io
 
-1. Comprime en un `.zip` `index.html`, `lib`, `src` y `assets` (que `index.html` quede en la raíz del zip, no dentro de otra carpeta). La carpeta `docs` no hace falta.
+1. Crea el zip con `tools/empaquetar.bat` (doble clic en Windows). Se guarda en `build/juego-itch.zip`.
 2. En itch.io: **Upload new project** → *Kind of project*: **HTML** → sube el zip y marca **This file will be played in the browser**.
 3. En *Embed options*:
    - Viewport: **720 × 1280** (o algo más pequeño con la misma proporción, como 450 × 800, para que quepa en pantallas de ordenador).

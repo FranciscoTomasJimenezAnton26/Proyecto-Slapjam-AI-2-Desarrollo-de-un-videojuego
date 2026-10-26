@@ -4,6 +4,8 @@ class MenuScene extends Phaser.Scene {
 
   create() {
     const { WIDTH: W, HEIGHT: H, COLORS, FONT } = CONFIG;
+    Fx.fadeIn(this);
+    this.starting = false;
 
     this.add.text(W / 2, H * 0.32, 'TÍTULO\nDEL JUEGO', {
       fontFamily: FONT, fontSize: '88px', fontStyle: 'bold', align: 'center',
@@ -31,7 +33,6 @@ class MenuScene extends Phaser.Scene {
     this.starting = true;
     Sfx.unlock();
     Sfx.play(this, 'tap');
-    this.cameras.main.fadeOut(200, 0, 0, 0);
-    this.cameras.main.once('camerafadeoutcomplete', () => this.scene.start('Play'));
+    Fx.goTo(this, 'Play');
   }
 }

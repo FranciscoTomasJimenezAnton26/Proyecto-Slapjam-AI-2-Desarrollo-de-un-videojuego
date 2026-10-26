@@ -11,5 +11,5 @@ const game = new Phaser.Game({
   },
   input: { activePointers: 2 },
   render: { antialias: true },
-  scene: [BootScene, MenuScene, PlayScene, GameOverScene],
+  scene: [BootScene, MenuScene, PlayScene, GameOverScene, DebugScene],
 });

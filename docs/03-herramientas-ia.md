@@ -49,6 +49,8 @@ Opciones:
 - [ ] Cuenta de ElevenLabs (plan con uso comercial si se usa)
 - [ ] Herramienta de música elegida y licencia revisada: ________
 - [ ] Unido al Discord de Slapjam para ver el tema al momento
+- [ ] Probado `tools/empaquetar.bat` en Windows (crea `build/juego-itch.zip`)
+- [ ] Probado `tools/sprites.html` con una imagen de prueba de la herramienta elegida
 
 ## Créditos (rellenar durante la jam)
 | Herramienta | Para qué | Plan |

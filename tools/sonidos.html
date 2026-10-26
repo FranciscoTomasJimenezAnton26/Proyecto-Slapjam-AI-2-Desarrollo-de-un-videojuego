@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Procesador de sonidos</title>
+<style>
+  :root {
+    --bg: #0d0a14; --panel: #1a1426; --line: #3b2463; --text: #f5ecff;
+    --muted: #9a8fb0; --accent: #ff8a1f; --good: #6cff8a; --bad: #ff4d6d;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.45 "Segoe UI", system-ui, sans-serif; }
+  header { padding: 20px 24px 8px; }
+  h1 { margin: 0 0 4px; font-size: 22px; color: var(--accent); }
+  header p { margin: 0; color: var(--muted); }
+  main { display: grid; grid-template-columns: 320px 1fr; gap: 20px; padding: 16px 24px 40px; }
+  @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .panel h2 { font-size: 15px; margin: 0 0 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  input[type=range] { width: 100%; }
+  input[type=text] { width: 100%; padding: 6px 8px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 6px; }
+  .check { display: flex; gap: 8px; align-items: flex-start; margin-top: 12px; font-weight: 600; }
+  button { cursor: pointer; border: 0; border-radius: 8px; padding: 8px 12px; font-weight: 700; background: var(--line); color: var(--text); }
+  button.primary { background: var(--accent); color: #1a0d00; }
+  button:disabled { opacity: .4; cursor: default; }
+  #drop { border: 2px dashed var(--line); border-radius: 12px; padding: 28px; text-align: center; color: var(--muted); cursor: pointer; transition: .15s; }
+  #drop.over { border-color: var(--accent); color: var(--text); background: #ff8a1f14; }
+  #actions { display: flex; gap: 8px; margin: 14px 0; flex-wrap: wrap; }
+  .item { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .item .top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .item .name { font-weight: 700; word-break: break-all; }
+  .item .info { color: var(--muted); font-size: 13px; }
+  .item canvas { width: 100%; height: 70px; display: block; margin: 10px 0; background: var(--bg); border-radius: 6px; }
+  .item .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .warn { color: var(--bad); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Procesador de sonidos</h1>
+  <p>Recorta el silencio de los sonidos generados por IA, iguala el volumen y los exporta listos para el juego.</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Ajustes</h2>
+
+    <label>Umbral de silencio: <span id="thrVal"></span> dB</label>
+    <input type="range" id="thr" min="-70" max="-20" value="-45">
+    <div class="hint">Lo que esté por debajo al principio y al final se considera silencio.</div>
+
+    <label>Margen antes del sonido: <span id="leadVal"></span> ms</label>
+    <input type="range" id="lead" min="0" max="100" value="5">
+
+    <div class="check"><input type="checkbox" id="trimEnd" checked>
+      <span>Recortar también el silencio final</span></div>
+
+    <label>Volumen máximo: <span id="peakVal"></span> dB</label>
+    <input type="range" id="peak" min="-12" max="0" step="0.5" value="-1">
+    <div class="hint">Todos los sonidos con el mismo pico suenan parecidos de fuerte. Para música usa algo más bajo (−6).</div>
+
+    <label>Fundido final: <span id="fadeVal"></span> ms</label>
+    <input type="range" id="fade" min="0" max="500" value="30">
+
+    <label>Duración máxima: <span id="maxVal"></span></label>
+    <input type="range" id="max" min="0" max="10" step="0.25" value="0">
+    <div class="hint">0 = sin límite. Útil para cortar efectos que se alargan demasiado.</div>
+
+    <div class="check"><input type="checkbox" id="mono" checked>
+      <span>Convertir a mono<div class="hint">La mitad de tamaño; en el móvil no se nota. Desmárcalo para música.</div></span></div>
+
+    <label>Prefijo del nombre</label>
+    <input type="text" id="prefix" placeholder="por ejemplo: sfx-">
+  </section>
+
+  <section>
+    <div id="drop">Arrastra aquí los sonidos (MP3, WAV, OGG)<br>o haz clic para elegirlos</div>
+    <input type="file" id="file" accept="audio/*" multiple hidden>
+    <div id="actions">
+      <button class="primary" id="downloadAll" disabled>Descargar todos (WAV)</button>
+      <button id="clear" disabled>Vaciar</button>
+    </div>
+    <div class="hint" style="margin-bottom:12px">Los WAV se cargan al instante en el juego. Para música larga es mejor convertir después a MP3 (pesa mucho menos).</div>
+    <div id="list"></div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const items = [];
+  let ctx = null;
+  let playing = null;
+  const audioCtx = () => (ctx ||= new (window.AudioContext || window.webkitAudioContext)());
+
+  const settings = () => ({
+    thr: Math.pow(10, +$('thr').value / 20),
+    lead: +$('lead').value / 1000,
+    trimEnd: $('trimEnd').checked,
+    peak: Math.pow(10, +$('peak').value / 20),
+    fade: +$('fade').value / 1000,
+    max: +$('max').value,
+    mono: $('mono').checked,
+    prefix: $('prefix').value.trim(),
+  });
+
+  const labels = { thr: 'thrVal', lead: 'leadVal', peak: 'peakVal', fade: 'fadeVal', max: 'maxVal' };
+  const sync = () => {
+    for (const [id, out] of Object.entries(labels)) $(out).textContent = $(id).value;
+    $('maxVal').textContent = +$('max').value === 0 ? 'sin límite' : $('max').value + ' s';
+  };
+  Object.keys(labels).forEach((id) => $(id).addEventListener('input', sync));
+  sync();
+
+  // ---------- Entrada ----------
+  const drop = $('drop');
+  drop.addEventListener('click', () => $('file').click());
+  $('file').addEventListener('change', (e) => addFiles(e.target.files));
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
+
+  async function addFiles(files) {
+    for (const file of files) {
+      const item = { file };
+      items.push(item);
+      renderItem(item);
+      try {
+        item.original = await audioCtx().decodeAudioData(await file.arrayBuffer());
+        process(item);
+      } catch (e) {
+        item.el.querySelector('.info').innerHTML = '<span class="warn">No se ha podido leer este archivo.</span>';
+      }
+    }
+    $('downloadAll').disabled = $('clear').disabled = items.length === 0;
+  }
+
+  // ---------- Procesado ----------
+  function process(item) {
+    const s = settings();
+    const src = item.original;
+    const sr = src.sampleRate;
+    const chans = [];
+    for (let c = 0; c < src.numberOfChannels; c++) chans.push(src.getChannelData(c));
+
+    // Mezcla a mono si se pide
+    let data;
+    if (s.mono || chans.length === 1) {
+      const m = new Float32Array(src.length);
+      for (const ch of chans) for (let i = 0; i < m.length; i++) m[i] += ch[i] / chans.length;
+      data = [m];
+    } else data = chans.map((c) => c.slice());
+
+    // Nivel por muestra (máximo de los canales)
+    const level = (i) => { let v = 0; for (const ch of data) v = Math.max(v, Math.abs(ch[i])); return v; };
+
+    let start = 0, end = data[0].length - 1;
+    while (start < end && level(start) < s.thr) start++;
+    if (s.trimEnd) while (end > start && level(end) < s.thr) end--;
+    start = Math.max(0, start - Math.round(s.lead * sr));
+    end = Math.min(data[0].length - 1, end + Math.round(0.01 * sr));
+    if (s.max > 0) end = Math.min(end, start + Math.round(s.max * sr));
+    const len = Math.max(1, end - start + 1);
+
+    let out = data.map((ch) => ch.slice(start, start + len));
+
+    // Normalizar al pico elegido
+    let peak = 0;
+    for (const ch of out) for (const v of ch) peak = Math.max(peak, Math.abs(v));
+    const gain = peak > 0 ? s.peak / peak : 1;
+
+    const fadeIn = Math.min(len, Math.round(0.002 * sr)); // 2 ms para evitar chasquidos
+    const fadeOut = Math.min(len, Math.round(s.fade * sr));
+    for (const ch of out) {
+      for (let i = 0; i < len; i++) {
+        let g = gain;
+        if (i < fadeIn) g *= i / fadeIn;
+        if (fadeOut > 0 && i >= len - fadeOut) g *= (len - i) / fadeOut;
+        ch[i] *= g;
+      }
+    }
+
+    const buf = audioCtx().createBuffer(out.length, len, sr);
+    out.forEach((ch, c) => buf.copyToChannel(ch, c));
+    item.processed = buf;
+    item.name = s.prefix + slug(item.file.name) + '.wav';
+    item.gainDb = 20 * Math.log10(gain || 1);
+    updateItem(item);
+  }
+
+  // ---------- WAV de 16 bits ----------
+  function toWav(buf) {
+    const nc = buf.numberOfChannels, sr = buf.sampleRate, n = buf.length;
+    const bytes = 44 + n * nc * 2;
+    const v = new DataView(new ArrayBuffer(bytes));
+    const str = (o, s) => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+    str(0, 'RIFF'); v.setUint32(4, bytes - 8, true); str(8, 'WAVE');
+    str(12, 'fmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, nc, true);
+    v.setUint32(24, sr, true); v.setUint32(28, sr * nc * 2, true); v.setUint16(32, nc * 2, true); v.setUint16(34, 16, true);
+    str(36, 'data'); v.setUint32(40, n * nc * 2, true);
+    const chans = []; for (let c = 0; c < nc; c++) chans.push(buf.getChannelData(c));
+    let o = 44;
+    for (let i = 0; i < n; i++) for (let c = 0; c < nc; c++) {
+      const s = Math.max(-1, Math.min(1, chans[c][i]));
+      v.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7fff, true); o += 2;
+    }
+    return new Blob([v], { type: 'audio/wav' });
+  }
+
+  const slug = (name) => name.replace(/\.[^.]+$/, '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'sonido';
+
+  // ---------- Interfaz ----------
+  function renderItem(item) {
+    const el = document.createElement('div');
+    el.className = 'item';
+    el.innerHTML = `<div class="top"><span class="name"></span><span class="info">Cargando…</span></div>
+      <canvas width="900" height="70"></canvas>
+      <div class="btns"><button data-a="orig">▶ Original</button><button data-a="proc">▶ Procesado</button><button data-a="dl" class="primary">Descargar</button></div>`;
+    el.querySelector('.name').textContent = item.file.name;
+    el.querySelector('[data-a=orig]').onclick = () => play(item.original);
+    el.querySelector('[data-a=proc]').onclick = () => play(item.processed);
+    el.querySelector('[data-a=dl]').onclick = () => download(item);
+    $('list').appendChild(el);
+    item.el = el;
+  }
+
+  function updateItem(item) {
+    const o = item.original, p = item.processed;
+    item.el.querySelector('.name').textContent = item.name;
+    const kb = Math.round((44 + p.length * p.numberOfChannels * 2) / 1024);
+    item.el.querySelector('.info').textContent =
+      `${o.duration.toFixed(2)} s → ${p.duration.toFixed(2)} s · ${p.numberOfChannels === 1 ? 'mono' : 'estéreo'} · ganancia ${item.gainDb >= 0 ? '+' : ''}${item.gainDb.toFixed(1)} dB · ${kb} KB`;
+    drawWave(item.el.querySelector('canvas'), o, p);
+  }
+
+  // Onda original en gris y procesada en naranja, alineadas en el tiempo original
+  function drawWave(cv, orig, proc) {
+    const g = cv.getContext('2d'), W = cv.width, H = cv.height;
+    g.clearRect(0, 0, W, H);
+    const draw = (buf, color, scaleW) => {
+      const d = buf.getChannelData(0), step = Math.max(1, Math.floor(d.length / (W * scaleW)));
+      g.fillStyle = color;
+      for (let x = 0; x < W * scaleW; x++) {
+        let m = 0; for (let i = x * step; i < Math.min(d.length, (x + 1) * step); i++) m = Math.max(m, Math.abs(d[i]));
+        const h = Math.max(1, m * (H - 4));
+        g.fillRect(x, (H - h) / 2, 1, h);
+      }
+    };
+    draw(orig, '#4a3f5e', 1);
+    draw(proc, '#ff8a1f', Math.min(1, proc.duration / orig.duration));
+  }
+
+  function play(buf) {
+    if (!buf) return;
+    try { playing?.stop(); } catch (e) {}
+    const s = audioCtx().createBufferSource();
+    s.buffer = buf; s.connect(audioCtx().destination); s.start();
+    playing = s;
+  }
+
+  function download(item) {
+    if (!item.processed) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(toWav(item.processed));
+    a.download = item.name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+
+  $('downloadAll').addEventListener('click', async () => {
+    for (const item of items) { download(item); await new Promise((r) => setTimeout(r, 300)); }
+  });
+  $('clear').addEventListener('click', () => { items.length = 0; $('list').innerHTML = ''; $('downloadAll').disabled = $('clear').disabled = true; });
+
+  document.querySelectorAll('section.panel input').forEach((el) =>
+    el.addEventListener('change', () => items.forEach((it) => it.original && process(it))));
+
+  window.__sonidos = { items, addFiles, toWav };
+})();
+</script>
+</body>
+</html>

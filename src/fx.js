@@ -43,6 +43,22 @@ const Fx = {
     scene.time.delayedCall(800, () => emitter.destroy());
   },
 
+  // Cambio de pantalla con fundido. Uso: Fx.goTo(this, 'GameOver', { score: 10 })
+  goTo(scene, key, data = {}, duration = 200) {
+    if (scene._leaving) return;
+    scene._leaving = true;
+    scene.input.enabled = false;
+    scene.cameras.main.fadeOut(duration, 0, 0, 0);
+    scene.cameras.main.once('camerafadeoutcomplete', () => scene.scene.start(key, data));
+  },
+
+  // Entrada con fundido: llamar al principio de create()
+  fadeIn(scene, duration = 200) {
+    scene._leaving = false;
+    scene.input.enabled = true; // goTo la desactiva al salir; al volver a la escena hay que reactivarla
+    scene.cameras.main.fadeIn(duration, 0, 0, 0);
+  },
+
   // Congela el juego unos milisegundos para dar peso a un golpe ("hit stop")
   hitStop(scene, ms = 60) {
     scene.time.timeScale = 0.05;
