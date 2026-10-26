@@ -85,6 +85,9 @@
     <div class="check"><input type="checkbox" id="removeBg" checked>
       <span>Quitar fondo<div class="hint">Desmárcalo para fondos de escenario, que solo se redimensionan.</div></span></div>
 
+    <div class="check"><input type="checkbox" id="shared" checked>
+      <span>Mismo recorte para todas<div class="hint">Imprescindible para parejas niño/monstruo: con recortes distintos, la pista (una cola, pies flotando) movería o encogería al personaje y se notaría sin mirarla. Procesa cada pareja o grupo por separado.</div></span></div>
+
     <label>Altura final (px)</label>
     <input type="number" id="height" value="600" min="0" step="10">
     <div class="hint">0 = sin redimensionar. Todos los personajes a la misma altura los hace coherentes.</div>
@@ -125,6 +128,7 @@
     height: Math.max(0, +$('height').value || 0),
     pad: Math.max(0, +$('pad').value || 0),
     prefix: $('prefix').value.trim(),
+    shared: $('shared').checked,
   });
   const syncLabels = () => { $('tolVal').textContent = $('tol').value; $('featherVal').textContent = $('feather').value; };
   ['tol', 'feather'].forEach((id) => $(id).addEventListener('input', syncLabels));
@@ -150,8 +154,9 @@
       const item = { file, img };
       items.push(item);
       renderCard(item);
-      process(item);
+      keyItem(item);
     }
+    finalizeAll();
     updateButtons();
   }
 
@@ -166,7 +171,8 @@
   }
 
   // ---------- Procesado ----------
-  function process(item) {
+  // Paso 1: quitar el fondo y calcular la caja del contenido de cada imagen
+  function keyItem(item) {
     const s = settings();
     const { img } = item;
     const w = img.naturalWidth, h = img.naturalHeight;
@@ -176,26 +182,49 @@
     sctx.drawImage(img, 0, 0);
     const data = sctx.getImageData(0, 0, w, h);
 
+    item.bg = null;
     if (s.removeBg) {
       const bg = s.mode === 'auto' ? cornerColor(data) : s.manual;
       item.bg = bg;
       keyOut(data, bg, s);
       sctx.putImageData(data, 0, 0);
     }
+    item.src = src;
+    item.box = s.removeBg ? alphaBounds(data) : { x: 0, y: 0, w, h };
+  }
 
-    // Recorte del espacio vacío
-    const box = s.removeBg ? alphaBounds(data) : { x: 0, y: 0, w, h };
-    item.empty = !box;
-    if (!box) { item.canvas = null; updateCard(item); return; }
+  // Paso 2: recortar y redimensionar. Con "mismo recorte", todas las imágenes del mismo tamaño
+  // original usan la caja que las contiene a todas y la misma escala, así quedan alineadas.
+  function finalizeAll() {
+    const s = settings();
+    const groups = new Map();
+    for (const it of items) {
+      if (!it.box) continue;
+      const key = s.shared ? `${it.src.width}x${it.src.height}` : it;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(it);
+    }
+    for (const it of items) if (!it.box) { it.canvas = null; updateCard(it); }
+    for (const group of groups.values()) {
+      const u = group.reduce((a, it) => {
+        const b = it.box;
+        if (!a) return { ...b };
+        const x0 = Math.min(a.x, b.x), y0 = Math.min(a.y, b.y);
+        const x1 = Math.max(a.x + a.w, b.x + b.w), y1 = Math.max(a.y + a.h, b.y + b.h);
+        return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+      }, null);
+      group.forEach((it) => finalize(it, u, s, group.length));
+    }
+  }
 
-    // Redimensionado a la altura final
+  function finalize(item, box, s, groupSize) {
     const scale = s.height > 0 ? (s.height - s.pad * 2) / box.h : 1;
     const outW = Math.max(1, Math.round(box.w * scale) + s.pad * 2);
     const outH = Math.max(1, Math.round(box.h * scale) + s.pad * 2);
 
     const cropped = document.createElement('canvas');
     cropped.width = box.w; cropped.height = box.h;
-    cropped.getContext('2d').drawImage(src, box.x, box.y, box.w, box.h, 0, 0, box.w, box.h);
+    cropped.getContext('2d').drawImage(item.src, box.x, box.y, box.w, box.h, 0, 0, box.w, box.h);
 
     const out = document.createElement('canvas');
     out.width = outW; out.height = outH;
@@ -207,8 +236,11 @@
     item.canvas = out;
     item.name = s.prefix + slug(item.file.name) + '.png';
     item.upscaled = scale > 1.05;
+    item.groupSize = groupSize;
     updateCard(item);
   }
+
+  const processAll = () => { items.forEach(keyItem); finalizeAll(); };
 
   // Color medio de las cuatro esquinas (bloques de 6×6)
   function cornerColor({ data, width: w, height: h }) {
@@ -325,7 +357,8 @@
     prev.appendChild(item.canvas);
     item.card.querySelector('.name').textContent = item.name;
     const bgTxt = item.bg ? ` · fondo rgb(${item.bg.join(', ')})` : '';
-    meta.innerHTML = `${item.img.naturalWidth}×${item.img.naturalHeight} → ${item.canvas.width}×${item.canvas.height}${bgTxt}`
+    const grp = item.groupSize > 1 ? ` · recorte común (${item.groupSize})` : '';
+    meta.innerHTML = `${item.img.naturalWidth}×${item.img.naturalHeight} → ${item.canvas.width}×${item.canvas.height}${bgTxt}${grp}`
       + (item.upscaled ? '<br><span class="warn">Ampliada: puede verse borrosa. Genera la imagen más grande.</span>' : '');
   }
 
@@ -348,13 +381,13 @@
   $('downloadAll').addEventListener('click', async () => {
     for (const item of items) { download(item); await new Promise((r) => setTimeout(r, 300)); }
   });
-  $('reprocess').addEventListener('click', () => items.forEach(process));
+  $('reprocess').addEventListener('click', processAll);
   $('clear').addEventListener('click', () => { items.length = 0; $('list').innerHTML = ''; updateButtons(); });
 
   // Reprocesar automáticamente al cambiar ajustes (con un pequeño retardo)
   let t;
   document.querySelectorAll('section.panel input, section.panel select').forEach((el) =>
-    el.addEventListener('change', () => { clearTimeout(t); t = setTimeout(() => items.forEach(process), 50); }));
+    el.addEventListener('change', () => { clearTimeout(t); t = setTimeout(processAll, 50); }));
 
   // Para pruebas automáticas
   window.__sprites = { items, addFiles };

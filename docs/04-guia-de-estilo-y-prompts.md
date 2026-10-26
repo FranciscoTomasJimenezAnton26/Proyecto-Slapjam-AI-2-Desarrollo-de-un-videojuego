@@ -82,6 +82,8 @@ empty doorway in the center, vertical 9:16 composition.
 - Comparar cada imagen nueva con la ancla; si no encaja, regenerar.
 - Todas las imágenes al mismo tamaño de exportación.
 - En `tools/sprites.html` deja el color de fondo en **Automático**: detecta el verde (o el magenta) de las esquinas.
+- Procesa cada **pareja niño/monstruo junta** con **Mismo recorte para todas**. Si Gemini mueve al personaje entre las dos imágenes, regenera la versión monstruo: la única diferencia debe ser la pista.
+- Prueba del lunes 26 con fondo verde: recorte limpio, sin restos visibles, y pareja alineada al píxel. ✅
 
 ## Prompts de sonido
 - `heavy wooden front door slammed shut, short echo, cartoon`

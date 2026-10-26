@@ -4,11 +4,11 @@ Se abren con **Live Server** igual que el juego (clic derecho → Open with Live
 
 ## sprites.html — imágenes de IA listas para el juego
 1. Genera las imágenes con el **fondo morado liso** de la guía de estilo (`docs/04-guia-de-estilo-y-prompts.md`).
-2. Arrastra todas a la herramienta.
+2. Arrastra a la herramienta **una pareja (o grupo) cada vez**: el niño y su versión monstruo juntos, con **Mismo recorte para todas** marcado. Así las dos salen del mismo tamaño y en la misma posición, y la pista no "mueve" al personaje.
 3. Revisa el resultado sobre el fondo de cuadros:
    - ¿Queda un halo morado? Sube la **tolerancia**.
    - ¿Se borran partes del personaje? Bájala.
-4. **Descargar todas** y mueve los PNG a `assets/img/`.
+4. **Descargar todas**, mueve los PNG a `assets/img/` y pulsa **Vaciar** antes de la siguiente pareja.
 
 Ajustes útiles:
 - **Altura final 600** para personajes: todos salen al mismo tamaño y encajan igual en la puerta.
