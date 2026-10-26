@@ -85,20 +85,25 @@ empty doorway in the center, vertical 9:16 composition.
 - Procesa cada **pareja niño/monstruo junta** con **Mismo recorte para todas**. Si Gemini mueve al personaje entre las dos imágenes, regenera la versión monstruo: la única diferencia debe ser la pista.
 - Prueba del lunes 26 con fondo verde: recorte limpio, sin restos visibles, y pareja alineada al píxel. ✅
 
-## Prompts de sonido
-- `heavy wooden front door slammed shut, short echo, cartoon`
-- `doorbell ding dong, old house, slightly spooky`
-- `candy pieces dropping into a plastic bag`
-- `cartoon whoosh, quick swipe`
-- `monster growl, funny, short`
-- `child's disappointed "awww", cartoon`
-- `success chime, magical, short`
+## Efectos de sonido (con `tools/generador-sfx.html`)
+| Sonido del juego | Tipo en el generador | Consejo |
+|---|---|---|
+| Llaman a la puerta | 🔔 Timbre | Eco 20–30 % |
+| Portazo (fallo o echar) | 🚪 Portazo | Tono ×0.8, eco 25 % |
+| Dar caramelos | 🍬 Caramelos | Tono ×1.0–1.2 |
+| Deslizar | 💨 Whoosh | Duración ×0.8 |
+| Monstruo descubierto | 👹 Gruñido | Tono ×0.7–0.9 |
+| Acierto | ✨ Acierto | |
+| Fallo | 💥 Fallo | |
+| Botones | 👆 Clic | |
+| Aparece visitante | 🎈 Pop | |
+| "¡Truco o trato!" del niño | 🗣️ Voz balbuceo | Tono ×1.3–1.6; guardar 3–4 variaciones |
+| "¡Truco o trato!" del monstruo | 🗣️ Voz balbuceo | Tono ×0.6–0.7, eco 30 % |
+| Monstruo que se cuela | 😈 Risa malvada | |
 
-## Prompts de música
-- Juego: `playful spooky Halloween loop, pizzicato strings, theremin, light percussion, upbeat, 120 bpm, seamless loop, instrumental`
-- Fin de partida: `short Halloween victory jingle, cartoon, 5 seconds, instrumental`
+Usa los nombres `tap`, `good`, `bad` y `whoosh` al guardarlos para que sustituyan automáticamente a los provisionales del juego.
 
-## Voces
-- Visitantes: "¡Truco o trato!" con 4–5 voces distintas (niño, niña, voz grave de monstruo que intenta sonar a niño).
-- Rangos: una frase por rango, por ejemplo S → "¡Eres el rey de Halloween!".
-- Decidir el jueves si las voces van en español, en inglés o sin texto (los jueces son internacionales: el inglés llega a más gente).
+## Música (Gemini Lyria 3, en gemini.google.com/music)
+- Juego: `Instrumental only, no vocals. Playful spooky Halloween cartoon music for a mobile game, pizzicato strings, theremin, light percussion, upbeat and bouncy, 120 bpm, should loop seamlessly.`
+- Pantalla de rangos: `Instrumental only, no vocals. Short triumphant Halloween cartoon fanfare, playful and spooky, celesta and brass.`
+- Las pistas duran 30 s: en el juego van en bucle. Pasa el archivo por `tools/sonidos.html` con volumen −6 dB, sin mono y sin recortar el silencio final.

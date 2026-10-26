@@ -15,7 +15,15 @@ Ajustes útiles:
 - Para fondos de escenario, desmarca **Quitar fondo** y pon la altura a 1280.
 - Si sale el aviso "Ampliada", la imagen original era pequeña: genera una más grande.
 
-## sonidos.html — efectos y música
+## generador-sfx.html — crear efectos y voces desde cero
+1. Elige un tipo (portazo, timbre, caramelos, voz de balbuceo…).
+2. Pulsa **🎲 Variar** (o la tecla V) hasta que te guste. Ajusta **tono**, **duración** y **eco**.
+3. Ponle nombre y pulsa **Guardar en la lista** (o la tecla G).
+4. **Descargar todos** y mueve los WAV a `assets/sfx/`.
+
+Los sonidos ya salen recortados y con el volumen igualado: no hace falta pasarlos por `sonidos.html`.
+
+## sonidos.html — procesar sonidos o música de otras herramientas
 1. Arrastra los sonidos generados.
 2. Escucha **Original** y **Procesado** para comparar.
 3. **Descargar todos** y mueve los WAV a `assets/sfx/`.

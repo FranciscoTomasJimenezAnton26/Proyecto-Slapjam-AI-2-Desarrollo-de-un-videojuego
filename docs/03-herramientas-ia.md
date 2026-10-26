@@ -36,17 +36,21 @@ Otras opciones (por si Gemini falla):
 - **Leonardo AI**: tiene Character Reference y un plan gratuito diario.
 - **Scenario.gg**: pensado para assets de juego.
 
-### Efectos de sonido
-- **ElevenLabs Sound Effects**: el más recomendado para efectos de juego (golpes, clics, puertas).
-- **Stable Audio**: mejor para ambientes y texturas.
-- Consejos: prompts concretos ("portazo de madera pesada, eco corto"), generar 3–4 variantes y quedarse con la mejor, recortar el silencio inicial, usar .wav o .ogg cortos.
+### ✅ Sonido sin gastar nada (decidido el lunes 26)
 
-### Música
-- **Suno** (plan de pago) o **Eleven Music** de ElevenLabs.
-- Necesitamos 2 pistas: bucle de juego (tenso y divertido, 60–90 s) y jingle de fin de partida.
+**Efectos → `tools/generador-sfx.html`** (programado por Claude)
+- Sintetiza por código: portazo, timbre, caramelos, whoosh, gruñido, acierto, fallo, clic, pop, voz de balbuceo y risa malvada.
+- Gratis, sin licencias de terceros y sin límites. Se pulsa **Variar** hasta que guste y se descarga en WAV.
 
-### Voces
-- **ElevenLabs** (texto a voz). Frases cortas para visitantes ("¡Truco o trato!" con voces distintas) y la frase de cada rango.
+**Música → Gemini (Lyria 3), incluida en tu plan**
+- En gemini.google.com/music. Pistas de **30 segundos**, con opción **instrumental**. Los planes de pago tienen límites más altos.
+- Llevan la marca invisible SynthID (como las imágenes).
+- **Pendiente:** Google no aclara en su anuncio los derechos de uso de las pistas. Revisa los términos de Gemini. **Plan B:** Claude programa una música en bucle por código durante la jam.
+
+**Voces → balbuceo de dibujos animados** (del mismo generador)
+- Tono alto = niño, tono bajo = monstruo. No depende del idioma: lo entienden jueces de cualquier país.
+
+**Descartado (sus planes gratuitos no permiten uso comercial):** ElevenLabs, Suno y Stable Audio.
 
 ## Checklist antes del jueves
 - [x] Cuenta en itch.io creada
@@ -54,8 +58,9 @@ Otras opciones (por si Gemini falla):
 - [x] Herramienta de imágenes elegida: **Gemini** (apoyo: Canva Pro)
 - [ ] Marca de agua visible de Gemini desactivada (Ajustes → Media Watermark)
 - [ ] Condiciones comerciales de Gemini revisadas en los términos oficiales
-- [ ] Cuenta de ElevenLabs (plan con uso comercial si se usa)
-- [ ] Herramienta de música elegida y licencia revisada: ________
+- [x] Efectos y voces: `tools/generador-sfx.html` (gratis)
+- [x] Música: Gemini Lyria 3 (incluida en el plan)
+- [ ] Términos de uso de la música de Gemini revisados
 - [ ] Unido al Discord de Slapjam para ver el tema al momento
 - [ ] Apuntado a la jam (botón **Join jam** en itch.io/jam/slapjam-ai-2)
 - [x] Probado `tools/empaquetar.bat` en Windows (crea `build/juego-itch.zip`)
@@ -67,9 +72,13 @@ Otras opciones (por si Gemini falla):
 | Claude (Anthropic) | Código, diseño y documentación | |
 | Gemini (Nano Banana 2.1) | Personajes, fondos e ilustraciones | Pago |
 | Canva Pro | Recorte de fondos y página de itch (si se usa) | Pro |
+| Gemini (Lyria 3) | Música | Pago |
+| Claude (Anthropic) | Generador de efectos y voces por síntesis | |
 | | | |
 
 ## Fuentes
+- [Lyria 3 en la app de Gemini (Google)](https://blog.google/innovation-and-ai/products/gemini-app/lyria-3/)
+- [Plan gratuito de Stable Audio (Costbench)](https://costbench.com/software/ai-music-generators/stable-audio/free-plan/)
 - [Generación de imágenes en Gemini (Google)](https://gemini.google/overview/image-generation/)
 - [Términos de Gemini sobre las imágenes generadas (terms.law)](https://terms.law/es/ai-output-rights/gemini/)
 - [Marca de agua visible opcional en Gemini (AI Haven)](https://aihaven.com/news/google-gemini-visible-watermark-toggle-optional/)
