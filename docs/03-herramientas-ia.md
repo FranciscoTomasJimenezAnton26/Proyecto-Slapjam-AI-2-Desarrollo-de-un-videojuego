@@ -21,14 +21,20 @@ El reto es la **coherencia**: el mismo estilo en todos los personajes, y la vers
 
 Lo que funciona mejor según las comparativas: herramientas que **editan a partir de una imagen ancla** o usan **imagen de referencia**, en lugar de generar cada personaje de cero.
 
-Opciones:
-- **Leonardo AI**: tiene Character Reference y un plan gratuito diario. Buena opción económica.
-- **Scenario.gg**: pensado para assets de juego.
-- **Neolemon**: especializado en personajes cartoon coherentes; solo prueba gratuita.
-- **Generadores de imágenes de los chatbots** (ChatGPT, Gemini…): útiles para editar una imagen ancla con instrucciones del tipo "misma imagen, pero con cola de lobo asomando".
-- Para quitar fondos: cualquier eliminador de fondos (los personajes van sobre la puerta).
+**✅ Decisión: Gemini (plan de pago) como herramienta principal.**
+- Con plan de pago usa el modelo **Nano Banana 2.1**, que Google presenta como su mejor modelo de generación y edición, con **coherencia de personajes**, edición de imágenes e imágenes de referencia. Es justo lo que necesita nuestro flujo: una imagen ancla y luego "misma imagen, pero con cola de lobo".
+- Si una imagen no convence, en el menú de tres puntos está **"Redo with Pro"** (Nano Banana Pro).
+- **Uso comercial:** según un resumen de terceros de los términos de Google, las imágenes de Gemini pueden usarse comercialmente y Google no reclama su propiedad. Confírmalo en los términos oficiales.
+- **⚠️ Marca de agua visible:** desde agosto de 2026 se puede desactivar en **Ajustes → Media Watermark**. **Desactívala antes de generar**: la marca está en una esquina, encima del fondo, y `tools/sprites.html` no la quitaría. La marca invisible SynthID se mantiene siempre; no molesta, pero es un motivo más para declarar Gemini en los créditos.
 
-**Decisión:** elegir UNA herramienta principal antes del jueves y probar con ella un personaje de prueba (que no se usará en el juego).
+**Canva Pro: herramienta de apoyo, no generador principal**
+- **Quitar fondos difíciles** (pelo, humo, bordes finos) si `tools/sprites.html` no da buen resultado.
+- **Página de itch.io:** portada de 630×500, capturas con marco y el logotipo del título.
+- No lo usamos como generador de los personajes: no he podido confirmar sus condiciones para imágenes de IA en juegos, y mezclar dos generadores rompe la coherencia del estilo.
+
+Otras opciones (por si Gemini falla):
+- **Leonardo AI**: tiene Character Reference y un plan gratuito diario.
+- **Scenario.gg**: pensado para assets de juego.
 
 ### Efectos de sonido
 - **ElevenLabs Sound Effects**: el más recomendado para efectos de juego (golpes, clics, puertas).
@@ -43,9 +49,11 @@ Opciones:
 - **ElevenLabs** (texto a voz). Frases cortas para visitantes ("¡Truco o trato!" con voces distintas) y la frase de cada rango.
 
 ## Checklist antes del jueves
-- [ ] Cuenta en itch.io creada y plantilla subida como borrador
-- [ ] Herramienta de imágenes elegida y probada: ________
-- [ ] Condiciones comerciales de la herramienta de imágenes revisadas
+- [x] Cuenta en itch.io creada
+- [ ] Plantilla subida a itch.io como borrador y probada en el móvil
+- [x] Herramienta de imágenes elegida: **Gemini** (apoyo: Canva Pro)
+- [ ] Marca de agua visible de Gemini desactivada (Ajustes → Media Watermark)
+- [ ] Condiciones comerciales de Gemini revisadas en los términos oficiales
 - [ ] Cuenta de ElevenLabs (plan con uso comercial si se usa)
 - [ ] Herramienta de música elegida y licencia revisada: ________
 - [ ] Unido al Discord de Slapjam para ver el tema al momento
@@ -56,10 +64,14 @@ Opciones:
 | Herramienta | Para qué | Plan |
 |---|---|---|
 | Claude (Anthropic) | Código, diseño y documentación | |
-| | | |
+| Gemini (Nano Banana 2.1) | Personajes, fondos e ilustraciones | Pago |
+| Canva Pro | Recorte de fondos y página de itch (si se usa) | Pro |
 | | | |
 
 ## Fuentes
+- [Generación de imágenes en Gemini (Google)](https://gemini.google/overview/image-generation/)
+- [Términos de Gemini sobre las imágenes generadas (terms.law)](https://terms.law/es/ai-output-rights/gemini/)
+- [Marca de agua visible opcional en Gemini (AI Haven)](https://aihaven.com/news/google-gemini-visible-watermark-toggle-optional/)
 - [Comparativa de herramientas de personajes coherentes (Neolemon)](https://www.neolemon.com/blog/best-ai-character-generator-for-consistent-characters/)
 - [Efectos de sonido con IA para juegos (Summer Engine)](https://www.summerengine.com/blog/ai-sound-effect-generator-for-games)
 - [Derechos de la música de Suno (terms.law)](https://terms.law/ai-output-rights/suno/)
