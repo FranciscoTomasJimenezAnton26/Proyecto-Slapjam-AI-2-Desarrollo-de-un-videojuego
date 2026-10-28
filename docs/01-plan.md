@@ -5,6 +5,9 @@
 - Phaser 3 con JavaScript plano, sin herramientas de build. VS Code + Live Server.
 - Formato vertical 720×1280, controles táctiles, jugable en el navegador de itch.io.
 
+## Idioma
+Textos del juego y página de itch.io **en inglés** (recomendación de los organizadores). Título provisional en inglés: *Trick or Treat?*
+
 ## La idea: ¿Truco o trato?
 Es la noche de Halloween y tú repartes caramelos. Llaman a la puerta, abres y aparece un visitante. Algunos son niños disfrazados; otros son **monstruos de verdad** que quieren colarse en tu casa.
 

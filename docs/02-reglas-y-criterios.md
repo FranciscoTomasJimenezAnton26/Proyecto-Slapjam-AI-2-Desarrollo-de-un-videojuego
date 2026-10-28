@@ -18,6 +18,9 @@ Nuestro objetivo de entrega: **sábado a las 13:00**, con 3 horas de margen.
 - Jugable en el navegador **dentro de itch.io**. No vale entregar solo un zip para descargar ni un juego alojado fuera de itch.
 - **Después del cierre no se puede actualizar el juego, ni siquiera para arreglar un fallo grave.** Por eso entregamos con margen y probamos la versión subida en el móvil.
 
+## Idioma
+Los organizadores **recomiendan el inglés** para la descripción y las instrucciones. Los textos del juego van en inglés (la plantilla ya lo está) y las voces son balbuceo, que se entiende en cualquier idioma.
+
 ## Cosas fáciles de olvidar
 - Rellenar el campo privado de **email de contacto para premios** al entregar. Solo lo ven los organizadores.
 - Rellenar la **lista de herramientas usadas** (es pública). Si se deja en blanco, cuenta como "no informado".

@@ -1,10 +1,16 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0d0a14">
   <title>Slapjam #2</title>
+
+  <!-- Fuente de Google Fonts (opcional). Ejemplo:
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  Después pon el nombre en CONFIG.FONT (src/config.js) y en ASSETS.fonts (src/assets.js). -->
   <style>
     html, body {
       margin: 0;
@@ -17,12 +23,27 @@
       -webkit-user-select: none;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;  /* sin menú de "copiar/guardar imagen" al mantener pulsado */
     }
     #game { width: 100%; height: 100%; }
+
+    /* Aviso de girar el móvil: solo en pantallas táctiles en horizontal y bajitas (móviles, no tablets) */
+    #rotate {
+      display: none; position: fixed; inset: 0; z-index: 10;
+      background: #0d0a14; color: #f5ecff;
+      font: 700 22px/1.4 "Trebuchet MS", "Segoe UI", sans-serif;
+      align-items: center; justify-content: center; flex-direction: column; gap: 12px; text-align: center;
+    }
+    #rotate .icon { font-size: 56px; animation: tilt 1.6s ease-in-out infinite; }
+    @keyframes tilt { 0%, 30% { transform: rotate(-90deg); } 60%, 100% { transform: rotate(0deg); } }
+    @media (orientation: landscape) and (pointer: coarse) and (max-height: 540px) {
+      #rotate { display: flex; }
+    }
   </style>
 </head>
 <body>
   <div id="game"></div>
+  <div id="rotate"><div class="icon">📱</div><div>Rotate your phone<br>to play</div></div>
 
   <!-- Phaser: primero intenta la copia local (lib/phaser.min.js) y, si no existe, la CDN. -->
   <script src="lib/phaser.min.js"></script>

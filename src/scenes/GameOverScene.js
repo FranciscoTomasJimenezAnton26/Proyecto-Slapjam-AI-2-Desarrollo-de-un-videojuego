@@ -11,8 +11,8 @@ class GameOverScene extends Phaser.Scene {
     const best = this.saveBest(this.score);
     const isRecord = this.score > 0 && this.score === best;
 
-    this.add.text(W / 2, H * 0.25, 'FIN', {
-      fontFamily: FONT, fontSize: '110px', fontStyle: 'bold', color: COLORS.accent,
+    this.add.text(W / 2, H * 0.25, 'GAME OVER', {
+      fontFamily: FONT, fontSize: '96px', fontStyle: 'bold', color: COLORS.accent,
       stroke: '#000', strokeThickness: 12,
     }).setOrigin(0.5);
 
@@ -21,11 +21,11 @@ class GameOverScene extends Phaser.Scene {
     }).setOrigin(0.5);
     Fx.punch(this, scoreText, 0.4);
 
-    this.add.text(W / 2, H * 0.55, isRecord ? '¡NUEVO RÉCORD!' : `Récord: ${best}`, {
+    this.add.text(W / 2, H * 0.55, isRecord ? 'NEW BEST!' : `Best: ${best}`, {
       fontFamily: FONT, fontSize: '40px', color: isRecord ? COLORS.accent : COLORS.muted,
     }).setOrigin(0.5);
 
-    const again = this.add.text(W / 2, H * 0.75, 'Toca para jugar otra vez', {
+    const again = this.add.text(W / 2, H * 0.75, 'Tap to play again', {
       fontFamily: FONT, fontSize: '44px', color: COLORS.text,
     }).setOrigin(0.5);
     this.tweens.add({ targets: again, alpha: 0.3, duration: 700, yoyo: true, repeat: -1 });

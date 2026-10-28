@@ -59,6 +59,13 @@ const Fx = {
     scene.cameras.main.fadeIn(duration, 0, 0, 0);
   },
 
+  // Vibración del móvil (Android; los iPhone no la permiten en el navegador y se ignora sin error).
+  // Uso: Fx.vibrate(30) para un toque corto, Fx.vibrate([40, 30, 40]) para un patrón.
+  vibrate(pattern = 25) {
+    if (Sfx.isMuted()) return; // si el jugador silenció el juego, tampoco vibra
+    try { navigator.vibrate && navigator.vibrate(pattern); } catch (e) {}
+  },
+
   // Congela el juego unos milisegundos para dar peso a un golpe ("hit stop")
   hitStop(scene, ms = 60) {
     scene.time.timeScale = 0.05;

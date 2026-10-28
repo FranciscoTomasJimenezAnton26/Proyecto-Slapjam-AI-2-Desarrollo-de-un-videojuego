@@ -2,6 +2,15 @@
 
 Horas en hora de Madrid. Es una guía, no una obligación: si algo va más rápido, se adelanta.
 
+## Antes de las 16:00 del jueves (preparación del puesto)
+- [ ] `git pull` en VS Code y Live Server funcionando
+- [ ] Pestañas abiertas: página de la jam, Discord de Slapjam, Gemini (imágenes), gemini.google.com/music, este guion
+- [ ] Marca de agua visible de Gemini desactivada
+- [ ] `tools/sprites.html` y `tools/generador-sfx.html` abiertos con Live Server
+- [ ] Móvil cargado y con el juego de prueba de itch.io a mano
+- [ ] Ordenador enchufado, agua y algo de comer cerca
+- [ ] Haber dormido bien la noche anterior
+
 ## Jueves 29 — Del tema al juego jugable
 | Hora | Tarea |
 |---|---|

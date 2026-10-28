@@ -19,7 +19,7 @@ class PlayScene extends Phaser.Scene {
       fontFamily: FONT, fontSize: '64px', fontStyle: 'bold', color: COLORS.accent,
     }).setOrigin(1, 0);
 
-    this.add.text(W / 2, H - 120, '← rojo        verde →', {
+    this.add.text(W / 2, H - 120, '← red        green →', {
       fontFamily: FONT, fontSize: '36px', color: COLORS.muted,
     }).setOrigin(0.5);
 
@@ -89,8 +89,9 @@ class PlayScene extends Phaser.Scene {
     } else {
       Fx.shake(this, 0.02, 220);
       Fx.flash(this, CONFIG.COLORS.bad, 150);
-      Fx.popText(this, flying.x, flying.y - 260, '¡FALLO!', '#ff4d6d');
+      Fx.popText(this, flying.x, flying.y - 260, 'MISS!', '#ff4d6d');
       Sfx.play(this, 'bad');
+      Fx.vibrate(60);
     }
     this.nextCard();
   }

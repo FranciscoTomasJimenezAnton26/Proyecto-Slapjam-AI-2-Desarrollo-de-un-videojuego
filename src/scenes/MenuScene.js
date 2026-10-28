@@ -7,18 +7,18 @@ class MenuScene extends Phaser.Scene {
     Fx.fadeIn(this);
     this.starting = false;
 
-    this.add.text(W / 2, H * 0.32, 'TÍTULO\nDEL JUEGO', {
+    this.add.text(W / 2, H * 0.32, 'GAME\nTITLE', {
       fontFamily: FONT, fontSize: '88px', fontStyle: 'bold', align: 'center',
       color: COLORS.accent, stroke: '#000', strokeThickness: 12,
     }).setOrigin(0.5);
 
-    const start = this.add.text(W / 2, H * 0.68, 'Toca para empezar', {
+    const start = this.add.text(W / 2, H * 0.68, 'Tap to start', {
       fontFamily: FONT, fontSize: '44px', color: COLORS.text,
     }).setOrigin(0.5);
 
     this.tweens.add({ targets: start, alpha: 0.3, duration: 700, yoyo: true, repeat: -1 });
 
-    this.add.text(W / 2, H - 60, 'Slapjam #2 · hecho con IA', {
+    this.add.text(W / 2, H - 60, 'Made with AI for Slapjam #2', {
       fontFamily: FONT, fontSize: '24px', color: COLORS.muted,
     }).setOrigin(0.5);
 

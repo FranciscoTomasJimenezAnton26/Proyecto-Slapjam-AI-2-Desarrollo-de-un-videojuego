@@ -13,3 +13,14 @@ const game = new Phaser.Game({
   render: { antialias: true },
   scene: [BootScene, MenuScene, PlayScene, GameOverScene, DebugScene],
 });
+
+// Cada toque reactiva el audio: los iPhone lo suspenden al cambiar de app o bloquear la pantalla.
+['pointerdown', 'touchend', 'keydown'].forEach((ev) =>
+  document.addEventListener(ev, () => {
+    Sfx.unlock();
+    const ctx = game.sound && game.sound.context;
+    if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+  }, { passive: true }));
+
+// Sin menú contextual (clic derecho o pulsación larga) encima del juego
+document.addEventListener('contextmenu', (e) => e.preventDefault());
