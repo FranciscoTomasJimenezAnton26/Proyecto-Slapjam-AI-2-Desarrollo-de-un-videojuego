@@ -79,6 +79,9 @@
     <div class="check"><input type="checkbox" id="connected" checked>
       <span>Borrar solo el fondo que toca los bordes<div class="hint">Evita agujeros si el personaje tiene zonas del mismo color que el fondo.</div></span></div>
 
+    <div class="check"><input type="checkbox" id="holes" checked>
+      <span>Borrar también los huecos interiores<div class="hint">Zonas de fondo encerradas (entre un brazo y el cuerpo, el asa de una bolsa…). Solo borra lo que es casi exactamente el color del fondo.</div></span></div>
+
     <div class="check"><input type="checkbox" id="despill" checked>
       <span>Limpiar el halo de color en los bordes</span></div>
 
@@ -123,6 +126,7 @@
     tol: +$('tol').value,
     feather: +$('feather').value,
     connected: $('connected').checked,
+    holes: $('holes').checked,
     despill: $('despill').checked,
     removeBg: $('removeBg').checked,
     height: Math.max(0, +$('height').value || 0),
@@ -286,6 +290,19 @@
           if (q < 0 || affected[q]) continue;
           if (dist[q] <= hard) { affected[q] = 1; stack.push(q); }
           else if (dist[q] < soft) affected[q] = 2; // borde: se suaviza pero no se propaga
+        }
+      }
+      if (s.holes) {
+        // Huecos interiores: píxeles muy parecidos al fondo aunque no toquen el borde,
+        // y su borde suave alrededor
+        const core = hard * 0.7;
+        for (let p = 0; p < N; p++) if (!affected[p] && dist[p] <= core) affected[p] = 1;
+        for (let p = 0; p < N; p++) {
+          if (affected[p] !== 1 || dist[p] > core) continue;
+          const x = p % w, y = (p / w) | 0;
+          for (const q of [x > 0 ? p - 1 : -1, x < w - 1 ? p + 1 : -1, y > 0 ? p - w : -1, y < h - 1 ? p + w : -1]) {
+            if (q >= 0 && !affected[q] && dist[q] < soft) affected[q] = 2;
+          }
         }
       }
     }

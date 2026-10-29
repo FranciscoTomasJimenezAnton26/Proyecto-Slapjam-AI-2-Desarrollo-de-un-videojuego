@@ -12,16 +12,33 @@ class Visitor extends Phaser.GameObjects.Container {
 
     const key = `${def.id}-${isMonster ? 'monster' : 'kid'}`;
     this.usesArt = scene.textures.exists(key);
+    this.floats = isMonster && def.clue === 'float';
+
+    // "body" contiene el dibujo y su sombra verdadera, para poder moverlos juntos (flotar)
+    this.body = scene.add.container(0, 0);
     if (this.usesArt) {
       this.art = scene.add.image(0, 0, key).setOrigin(0.5, 1);
       this.art.setScale(VISITOR_HEIGHT / this.art.height);
-      this.add(this.art);
+      // Sombra en el suelo: si el visitante flota, queda separada de los pies
+      const shadowW = Math.min(this.art.displayWidth * 0.62, 240);
+      this.shadow = scene.add.ellipse(0, -6, shadowW, 30, 0x000000, 0.38);
+      this.add(this.shadow);
+      this.body.add(this.art);
     } else {
       this.drawPlaceholder();
     }
     this.silhouette = this.buildSilhouette(key);
     this.silhouette.setAlpha(0);
-    this.add(this.silhouette);
+    this.body.add(this.silhouette);
+    this.add(this.body);
+
+    if (this.floats && this.usesArt) {
+      const lift = 42 + 30 * clueSize;
+      this.body.y = -lift;
+      this.shadow.setScale(0.7).setAlpha(0.6);
+      scene.tweens.add({ targets: this.body, y: -lift - 22, duration: 520, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
+      scene.tweens.add({ targets: this.shadow, scaleX: 0.6, duration: 520, yoyo: true, repeat: -1, ease: 'Sine.InOut' });
+    }
 
     scene.add.existing(this);
   }
@@ -99,14 +116,14 @@ class Visitor extends Phaser.GameObjects.Container {
       g.fillTriangle(8, -440, 20, -440, 14, -440 + 26 * s);
     }
 
-    this.add(g);
+    this.body.add(g);
 
     // Nombre del disfraz (solo en la versión provisional)
     const label = this.scene.add.text(0, -320 - lift, this.def.name.toUpperCase(), {
       fontFamily: CONFIG.FONT, fontSize: '28px', fontStyle: 'bold',
       color: this.def.color < 0x555555 ? '#f5ecff' : '#120c1c',
     }).setOrigin(0.5);
-    this.add(label);
+    this.body.add(label);
   }
 
   // ---------- Sombra verdadera (lo que revela la bombilla) ----------

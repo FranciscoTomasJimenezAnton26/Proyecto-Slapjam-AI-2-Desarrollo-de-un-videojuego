@@ -70,7 +70,7 @@ Otras opciones (por si Gemini falla):
 | Herramienta | Para qué | Plan |
 |---|---|---|
 | Claude (Anthropic) | Código, diseño y documentación | |
-| Gemini (Nano Banana 2.1) | Personajes, fondos e ilustraciones | Pago |
+| Gemini (Nano Banana 2.1) | Los 16 visitantes (8 niños y sus versiones monstruo), fondos e ilustraciones | Pago |
 | Canva Pro | Recorte de fondos y página de itch (si se usa) | Pro |
 | Gemini (Lyria 3) | Música | Pago |
 | Claude (Anthropic) | Generador de efectos y voces por síntesis | |
