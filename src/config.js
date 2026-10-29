@@ -21,7 +21,8 @@ const CONFIG = {
     muted: '#9a8fb0',
   },
 
-  FONT: '"Trebuchet MS", "Segoe UI", sans-serif',
+  FONT: '"Fredoka", "Trebuchet MS", "Segoe UI", sans-serif',          // textos
+  FONT_DISPLAY: '"Luckiest Guy", "Impact", "Arial Black", sans-serif',  // títulos y números
 
   // ---------- Reglas de Doorbell Dash ----------
   GAME: {

@@ -20,10 +20,7 @@ const Fx = {
 
   // Texto que salta y se desvanece (p. ej. "+1", "¡FALLO!")
   popText(scene, x, y, text, color = CONFIG.COLORS.text, size = 56) {
-    const t = scene.add.text(x, y, text, {
-      fontFamily: CONFIG.FONT, fontSize: size + 'px', fontStyle: 'bold',
-      color, stroke: '#000000', strokeThickness: 8,
-    }).setOrigin(0.5).setDepth(1000).setScale(0.4);
+    const t = UI.display(scene, x, y, text, size, { color }).setDepth(1000).setScale(0.4);
     scene.tweens.add({ targets: t, scale: 1, duration: 180, ease: 'Back.Out' });
     scene.tweens.add({ targets: t, y: y - 120, alpha: 0, delay: 250, duration: 500, onComplete: () => t.destroy() });
   },

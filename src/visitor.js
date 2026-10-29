@@ -130,7 +130,9 @@ class Visitor extends Phaser.GameObjects.Container {
   buildSilhouette(key) {
     const box = this.scene.add.container(0, 0);
     if (this.usesArt) {
-      const sh = this.scene.add.image(0, 0, key).setOrigin(0.5, 1).setScale(this.art.scale).setTintFill(0x05030a);
+      const silKey = this.scene.textures.exists(`${key}-sil`) ? `${key}-sil` : key;
+      const sh = this.scene.add.image(0, 0, silKey).setOrigin(0.5, 1).setScale(this.art.scale);
+      if (silKey === key) sh.setTintFill(0x05030a);
       box.add(sh);
     } else {
       const g = this.scene.add.graphics();

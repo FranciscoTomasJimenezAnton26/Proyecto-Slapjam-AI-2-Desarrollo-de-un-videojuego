@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#0d0a14">
   <title>Doorbell Dash</title>
 
-  <!-- Fuente de Google Fonts (opcional). Ejemplo:
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-  Después pon el nombre en CONFIG.FONT (src/config.js) y en ASSETS.fonts (src/assets.js). -->
+  <!-- Fuentes incluidas en el juego (funcionan sin internet). Licencias en assets/fonts/ -->
+  <style>
+    @font-face { font-family: "Luckiest Guy"; src: url("assets/fonts/LuckiestGuy.woff") format("woff"); font-display: block; }
+    @font-face { font-family: "Fredoka"; src: url("assets/fonts/Fredoka.woff") format("woff"); font-weight: 300 700; font-display: block; }
+  </style>
   <style>
     html, body {
       margin: 0;
@@ -31,7 +31,7 @@
     #rotate {
       display: none; position: fixed; inset: 0; z-index: 10;
       background: #0d0a14; color: #f5ecff;
-      font: 700 22px/1.4 "Trebuchet MS", "Segoe UI", sans-serif;
+      font: 600 24px/1.4 "Fredoka", "Trebuchet MS", sans-serif;
       align-items: center; justify-content: center; flex-direction: column; gap: 12px; text-align: center;
     }
     #rotate .icon { font-size: 56px; animation: tilt 1.6s ease-in-out infinite; }

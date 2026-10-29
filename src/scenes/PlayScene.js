@@ -104,50 +104,37 @@ class PlayScene extends Phaser.Scene {
   }
 
   buildHud() {
-    const { WIDTH: W, COLORS, FONT } = CONFIG;
+    const { WIDTH: W, COLORS } = CONFIG;
     const D = 100;
 
-    this.timerText = this.add.text(W / 2, 30, formatTime(0), {
-      fontFamily: FONT, fontSize: '84px', fontStyle: 'bold', color: COLORS.text,
-      stroke: '#000', strokeThickness: 10,
-    }).setOrigin(0.5, 0).setDepth(D);
+    // Barra superior
+    UI.pill(this, W / 2, 80, 696, 116, 0x140c24, { alpha: 0.9, borderColor: 0x3b2463, border: 5 }).setDepth(D);
 
-    this.deltaText = this.add.text(W / 2, 128, '', {
-      fontFamily: FONT, fontSize: '30px', fontStyle: 'bold', color: COLORS.muted,
-      stroke: '#000', strokeThickness: 6,
-    }).setOrigin(0.5, 0).setDepth(D);
+    UI.label(this, 100, 52, 'VISITORS', 18, { color: COLORS.muted }).setDepth(D);
+    this.countText = UI.display(this, 100, 92, `0/${CONFIG.GAME.VISITORS}`, 44, { gradient: 'candy' }).setDepth(D);
 
-    this.countText = this.add.text(32, 40, `0/${CONFIG.GAME.VISITORS}`, {
-      fontFamily: FONT, fontSize: '40px', fontStyle: 'bold', color: COLORS.accent,
-      stroke: '#000', strokeThickness: 8,
-    }).setDepth(D);
+    this.timer = UI.timer(this, W / 2, 82, 70, { gradient: 'ghost' }).setDepth(D);
+    this.timer.setValue(formatTime(0));
 
-    // Sugar Rush: 5 caramelos que se iluminan
+    // Sugar Rush: 5 caramelos que se encienden de colores
     this.rushPips = [];
     for (let i = 0; i < CONFIG.GAME.RUSH_MAX; i++) {
-      this.rushPips.push(this.add.circle(W - 40 - (CONFIG.GAME.RUSH_MAX - 1 - i) * 30, 62, 11, 0x3b2463)
-        .setStrokeStyle(3, 0x000000).setDepth(D));
+      this.rushPips.push(this.add.image(552 + i * 31, 64, 'candy-off').setScale(0.55).setDepth(D));
     }
-    this.rushText = this.add.text(W - 26, 84, 'SUGAR RUSH', {
-      fontFamily: FONT, fontSize: '20px', fontStyle: 'bold', color: COLORS.muted,
-    }).setOrigin(1, 0).setDepth(D);
+    this.rushText = UI.label(this, 614, 104, 'SUGAR RUSH', 18, { color: COLORS.muted }).setDepth(D);
+
+    this.deltaText = UI.label(this, W / 2, 162, '', 26, { stroke: '#0d0a14' }).setDepth(D);
 
     // Barra de paciencia del visitante (debajo de la puerta)
-    this.patienceBg = this.add.rectangle(DOOR.x, DOOR.bottom + 50, 300, 18, 0x000000, 0.5).setDepth(D).setVisible(false);
-    this.patienceBar = this.add.rectangle(DOOR.x - 150, DOOR.bottom + 50, 300, 18, COLORS.good).setOrigin(0, 0.5).setDepth(D).setVisible(false);
+    this.patienceBg = UI.pill(this, DOOR.x, DOOR.bottom + 48, 330, 34, 0x140c24, { border: 4, shadow: false }).setDepth(D).setVisible(false);
+    this.patienceBar = this.add.rectangle(DOOR.x - 150, DOOR.bottom + 48, 300, 16, COLORS.good).setOrigin(0, 0.5).setDepth(D).setVisible(false);
 
-    // Ayuda de controles
-    this.add.text(40, 1150, '← SLAM', {
-      fontFamily: FONT, fontSize: '40px', fontStyle: 'bold', color: COLORS.badCss, stroke: '#000', strokeThickness: 8,
-    }).setDepth(D);
-    this.add.text(W - 40, 1150, 'TREAT →', {
-      fontFamily: FONT, fontSize: '40px', fontStyle: 'bold', color: COLORS.goodCss, stroke: '#000', strokeThickness: 8,
-    }).setOrigin(1, 0).setDepth(D);
-    this.add.text(W / 2 - 30, 1222, 'tap the 💡 to see their true shadow', {
-      fontFamily: FONT, fontSize: '24px', color: COLORS.muted,
-    }).setOrigin(0.5).setDepth(D);
+    // Controles
+    UI.controlChip(this, 150, 1148, 'SLAM', -1, 0xd61f45, 236, 72, 40, D);
+    UI.controlChip(this, W - 150, 1148, 'TREAT', 1, 0x2fcf5a, 236, 72, 40, D);
+    UI.label(this, W / 2 - 24, 1228, 'tap the 💡 to see their true shadow', 22, { color: COLORS.muted, bold: false }).setDepth(D);
 
-    UI.muteButton(this, W - 44, 1222);
+    UI.muteButton(this, W - 50, 1226);
   }
 
   // ---------- Cuenta atrás ----------
@@ -156,10 +143,8 @@ class PlayScene extends Phaser.Scene {
     steps.forEach((label, i) => this.time.delayedCall(450 + i * 520, () => {
       const last = i === steps.length - 1;
       Sfx.play(this, last ? 'go' : 'count');
-      const t = this.add.text(CONFIG.WIDTH / 2, DOOR.cy, label, {
-        fontFamily: CONFIG.FONT, fontSize: last ? '170px' : '200px', fontStyle: 'bold',
-        color: last ? CONFIG.COLORS.goodCss : CONFIG.COLORS.text, stroke: '#000', strokeThickness: 14,
-      }).setOrigin(0.5).setDepth(200).setScale(1.6).setAlpha(0);
+      const t = UI.display(this, CONFIG.WIDTH / 2, DOOR.cy, label, last ? 180 : 230, { gradient: last ? 'lime' : 'candy' })
+        .setDepth(200).setScale(1.6).setAlpha(0);
       this.tweens.add({ targets: t, scale: 1, alpha: 1, duration: 160, ease: 'Back.Out' });
       this.tweens.add({ targets: t, alpha: 0, scale: 0.8, delay: 360, duration: 150, onComplete: () => t.destroy() });
       if (last) { this.running = true; this.nextVisitor(); }
@@ -355,23 +340,23 @@ class PlayScene extends Phaser.Scene {
     Fx.vibrate([60, 40, 60]);
     Fx.popText(this, CONFIG.WIDTH / 2, DOOR.cy - 60, title, CONFIG.COLORS.badCss, 76);
     if (hint) {
-      const h = this.add.text(CONFIG.WIDTH / 2, DOOR.cy + 40, hint, {
-        fontFamily: CONFIG.FONT, fontSize: '36px', fontStyle: 'bold', color: CONFIG.COLORS.text,
-        stroke: '#000', strokeThickness: 8, align: 'center', wordWrap: { width: 600 },
-      }).setOrigin(0.5).setDepth(200);
+      const h = UI.label(this, CONFIG.WIDTH / 2, DOOR.cy + 50, hint, 36, { stroke: '#0d0a14', wrap: 600 }).setDepth(200);
       this.tweens.add({ targets: h, alpha: 0, delay: 650, duration: 250, onComplete: () => h.destroy() });
     }
     // "+3s" que vuela al cronómetro
-    const p = this.add.text(CONFIG.WIDTH / 2, 230, `+${G.PENALTY_MS / 1000}s`, {
-      fontFamily: CONFIG.FONT, fontSize: '56px', fontStyle: 'bold', color: CONFIG.COLORS.badCss, stroke: '#000', strokeThickness: 8,
-    }).setOrigin(0.5).setDepth(200);
+    const p = UI.display(this, CONFIG.WIDTH / 2, 240, `+${G.PENALTY_MS / 1000}s`, 64, { gradient: 'blood' }).setDepth(200);
     this.tweens.add({ targets: p, y: 90, alpha: 0, duration: 600, ease: 'Quad.In', onComplete: () => p.destroy() });
-    this.timerText.setColor(CONFIG.COLORS.badCss);
-    this.time.delayedCall(500, () => this.timerText.setColor(CONFIG.COLORS.text));
+    this.timer.setTint(CONFIG.COLORS.badCss);
+    Fx.punch(this, this.timer, 0.15);
+    this.time.delayedCall(500, () => this.timer.clearTint());
   }
 
   updateRush() {
-    this.rushPips.forEach((pip, i) => pip.setFillStyle(i < this.rush ? CONFIG.COLORS.accentHex : 0x3b2463));
+    this.rushPips.forEach((pip, i) => {
+      const on = i < this.rush;
+      pip.setTexture(on ? `candy-${i}` : 'candy-off');
+      if (on && i === this.rush - 1) Fx.punch(this, pip, 0.5);
+    });
     this.rushText.setColor(this.rush ? CONFIG.COLORS.accent : CONFIG.COLORS.muted);
     Sfx.musicRate(1 + 0.05 * this.rush);
   }
@@ -387,6 +372,7 @@ class PlayScene extends Phaser.Scene {
     const d = total - ref;
     this.deltaText.setText(`${d <= 0 ? '−' : '+'}${(Math.abs(d) / 1000).toFixed(2)} vs best`);
     this.deltaText.setColor(d <= 0 ? CONFIG.COLORS.goodCss : CONFIG.COLORS.badCss);
+    Fx.punch(this, this.deltaText, 0.12);
   }
 
   total() { return this.elapsed + this.penalty; }
@@ -396,7 +382,7 @@ class PlayScene extends Phaser.Scene {
     this.state = 'done';
     this.running = false;
     const time = this.total();
-    this.timerText.setText(formatTime(time));
+    this.timer.setValue(formatTime(time));
     Sfx.play(this, 'go');
     Fx.popText(this, CONFIG.WIDTH / 2, DOOR.cy, 'FINISH!', CONFIG.COLORS.accent, 110);
     this.time.delayedCall(900, () => Fx.goTo(this, 'Results', {
@@ -408,7 +394,7 @@ class PlayScene extends Phaser.Scene {
   update(_, delta) {
     if (this.running) {
       this.elapsed += delta;
-      this.timerText.setText(formatTime(this.total()));
+      this.timer.setValue(formatTime(this.total()));
     }
 
     if (this.state === 'open') {

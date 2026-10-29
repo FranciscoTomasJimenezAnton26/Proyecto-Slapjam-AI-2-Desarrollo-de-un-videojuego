@@ -31,8 +31,6 @@ const ASSETS = {
   autoImages: ['bg-street', 'fg-wall', 'door'],
   autoSfx: ['tap', 'bell', 'slam', 'candy', 'growl', 'cry', 'laugh', 'count', 'go', 'rush', 'bad', 'whoosh', 'voice1', 'voice2', 'voice3'],
 
-  // Fuentes de Google Fonts: se cargan en index.html; aquí solo se espera a que estén listas.
-  fonts: [
-    // 'Creepster',
-  ],
+  // Fuentes (archivos en assets/fonts, declaradas en index.html): se espera a que estén listas.
+  fonts: ['Luckiest Guy', 'Fredoka'],
 };

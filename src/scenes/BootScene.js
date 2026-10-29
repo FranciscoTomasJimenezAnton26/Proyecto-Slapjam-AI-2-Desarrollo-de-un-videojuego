@@ -34,12 +34,13 @@ class BootScene extends Phaser.Scene {
 
   async create() {
     this.makePlaceholderTextures();
+    this.makeSilhouettes();
 
     // Esperar a las fuentes web para que los textos no aparezcan con la fuente por defecto
     if (ASSETS.fonts.length && document.fonts) {
       try {
         await Promise.race([
-          Promise.all(ASSETS.fonts.map((f) => document.fonts.load(`48px "${f}"`))),
+          Promise.all(ASSETS.fonts.flatMap((f) => [document.fonts.load(`48px "${f}"`), document.fonts.load(`600 48px "${f}"`)])),
           new Promise((r) => setTimeout(r, 3000)),
         ]);
       } catch (e) { /* se usa la fuente de respaldo */ }
@@ -49,12 +50,60 @@ class BootScene extends Phaser.Scene {
     this.scene.start('Menu');
   }
 
+  // Sombra negra de cada visitante (lo que revela la bombilla). Se genera aquí para no depender de "tint",
+  // que no funciona en el modo Canvas.
+  makeSilhouettes() {
+    for (const v of VISITORS) {
+      for (const t of ['kid', 'monster']) {
+        const key = `${v.id}-${t}`;
+        if (!this.textures.exists(key)) continue;
+        const src = this.textures.get(key).getSourceImage();
+        const ct = this.textures.createCanvas(`${key}-sil`, src.width, src.height);
+        const ctx = ct.getContext();
+        ctx.drawImage(src, 0, 0);
+        ctx.globalCompositeOperation = 'source-in';
+        ctx.fillStyle = '#05030a';
+        ctx.fillRect(0, 0, src.width, src.height);
+        ct.refresh();
+      }
+    }
+  }
+
   makePlaceholderTextures() {
     const g = this.make.graphics({ x: 0, y: 0, add: false });
 
     // Partícula redonda
     g.fillStyle(0xffffff).fillCircle(8, 8, 8);
     g.generateTexture('dot', 16, 16);
+    g.clear();
+
+    // Murciélago (silueta)
+    g.fillStyle(0x140a20);
+    g.fillEllipse(40, 22, 22, 18);                                   // cuerpo
+    g.fillTriangle(34, 14, 38, 4, 40, 14).fillTriangle(46, 14, 42, 4, 40, 14); // orejas
+    g.fillTriangle(30, 18, 0, 8, 10, 30).fillTriangle(10, 30, 18, 22, 30, 26); // ala izquierda
+    g.fillTriangle(50, 18, 80, 8, 70, 30).fillTriangle(70, 30, 62, 22, 50, 26); // ala derecha
+    g.fillStyle(0xffd27a).fillCircle(36, 20, 2).fillCircle(44, 20, 2);
+    g.generateTexture('bat', 80, 40);
+    g.clear();
+
+    // Caramelos envueltos (iconos del Sugar Rush), con el color ya pintado: en modo Canvas no se puede teñir
+    const candy = (key, color) => {
+      g.fillStyle(color);
+      g.fillTriangle(4, 6, 4, 34, 18, 20).fillTriangle(56, 6, 56, 34, 42, 20);
+      g.fillCircle(30, 20, 15);
+      g.lineStyle(4, 0x2a0f3d).strokeCircle(30, 20, 15);
+      g.lineStyle(3, 0x2a0f3d).strokeTriangle(4, 6, 4, 34, 17, 20).strokeTriangle(56, 6, 56, 34, 43, 20);
+      g.fillStyle(0xffffff, 0.55).fillCircle(25, 14, 4);
+      g.generateTexture(key, 60, 40);
+      g.clear();
+    };
+    candy('candy-off', 0x4a3d63);
+    [0xff8a1f, 0xff5fa2, 0xffe14a, 0x6cff8a, 0x7ad7ff].forEach((c, i) => candy(`candy-${i}`, c));
+
+    // Confeti rectangular
+    g.fillStyle(0xffffff).fillRect(0, 0, 14, 8);
+    g.generateTexture('confetti', 14, 8);
     g.clear();
 
     // Puerta provisional de madera (solo si no hay assets/img/door.png)
