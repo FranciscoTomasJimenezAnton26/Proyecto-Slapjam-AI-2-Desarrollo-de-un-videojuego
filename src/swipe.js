@@ -59,6 +59,6 @@ const Swipe = {
     // Para probar en el ordenador: flechas izquierda/derecha simulan un swipe
     scene.input.keyboard?.on('keydown-LEFT', () => onSwipe('left', { speed: 2 }));
     scene.input.keyboard?.on('keydown-RIGHT', () => onSwipe('right', { speed: 2 }));
-    scene.input.keyboard?.on('keydown-SPACE', () => onTap({ x: CONFIG.WIDTH / 2, y: CONFIG.HEIGHT / 2 }));
+    scene.input.keyboard?.on('keydown-SPACE', () => onTap({ x: CONFIG.WIDTH / 2, y: CONFIG.HEIGHT / 2, keyboard: true }));
   },
 };

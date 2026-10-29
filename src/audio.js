@@ -40,6 +40,16 @@ const Sfx = (() => {
     good()   { tone(520, 0.08, 'triangle', 0.15); setTimeout(() => tone(780, 0.1, 'triangle', 0.15), 70); },
     bad()    { tone(180, 0.25, 'sawtooth', 0.15, 70); },
     whoosh() { tone(900, 0.15, 'sine', 0.08, 200); },
+    bell()   { tone(660, 0.25, 'triangle', 0.14); setTimeout(() => tone(523, 0.35, 'triangle', 0.14), 180); },
+    slam()   { tone(110, 0.18, 'sawtooth', 0.22, 40); tone(60, 0.25, 'sine', 0.3, 35); },
+    candy()  { [1800, 2300, 2000, 2600].forEach((f, i) => setTimeout(() => tone(f, 0.05, 'triangle', 0.08), i * 45)); },
+    growl()  { tone(120, 0.4, 'sawtooth', 0.16, 70); },
+    cry()    { tone(620, 0.45, 'sine', 0.12, 300); },
+    laugh()  { [300, 280, 260, 240].forEach((f, i) => setTimeout(() => tone(f, 0.1, 'sawtooth', 0.12, f * 0.9), i * 120)); },
+    count()  { tone(440, 0.12, 'square', 0.1); },
+    go()     { tone(880, 0.3, 'square', 0.12); },
+    rush()   { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => tone(f, 0.09, 'triangle', 0.12), i * 50)); },
+    tick()   { tone(1200, 0.03, 'square', 0.05); },
   };
 
   function play(scene, key, config = {}) {
@@ -61,6 +71,15 @@ const Sfx = (() => {
     scene.sound.mute = muted;
   }
 
+  // Velocidad de la música (1 = normal). El Sugar Rush la acelera.
+  function musicRate(rate) {
+    if (currentMusic && currentMusic.isPlaying) currentMusic.setRate(rate);
+  }
+
+  function stopMusic() {
+    if (currentMusic) { currentMusic.stop(); currentMusic = null; }
+  }
+
   function setMuted(scene, value) {
     muted = value;
     if (scene) scene.sound.mute = muted;
@@ -72,6 +91,8 @@ const Sfx = (() => {
     unlock,
     play,
     music,
+    musicRate,
+    stopMusic,
     isMuted: () => muted,
     toggleMute: (scene) => setMuted(scene, !muted),
     applyMute: (scene) => { scene.sound.mute = muted; },

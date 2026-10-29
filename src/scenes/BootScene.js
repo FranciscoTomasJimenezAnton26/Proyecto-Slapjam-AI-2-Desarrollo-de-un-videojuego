@@ -16,6 +16,15 @@ class BootScene extends Phaser.Scene {
     // Un archivo que falla no detiene el juego
     this.load.on('loaderror', (file) => console.warn(`[assets] No se pudo cargar "${file.key}" (${file.src})`));
 
+    // Carga automática por nombre de archivo
+    for (const v of VISITORS) {
+      this.load.image(`${v.id}-kid`, `assets/img/${v.id}-kid.png`);
+      this.load.image(`${v.id}-monster`, `assets/img/${v.id}-monster.png`);
+    }
+    for (const key of ASSETS.autoImages) this.load.image(key, `assets/img/${key}.png`);
+    for (const key of ASSETS.autoSfx) this.load.audio(key, [`assets/sfx/${key}.wav`]);
+    this.load.audio('music', ['assets/music/music.mp3']);
+
     for (const [key, path] of Object.entries(ASSETS.images)) this.load.image(key, path);
     for (const [key, s] of Object.entries(ASSETS.spritesheets)) {
       this.load.spritesheet(key, s.path, { frameWidth: s.frameWidth, frameHeight: s.frameHeight });
@@ -48,9 +57,17 @@ class BootScene extends Phaser.Scene {
     g.generateTexture('dot', 16, 16);
     g.clear();
 
-    // Tarjeta provisional
-    g.fillStyle(0xffffff).fillRoundedRect(0, 0, 300, 420, 32);
-    g.generateTexture('card', 300, 420);
+    // Puerta provisional de madera (solo si no hay assets/img/door.png)
+    if (!this.textures.exists('door')) {
+      g.fillStyle(0x6b3f22).fillRect(0, 0, 420, 720);
+      g.fillStyle(0x8a5530);
+      for (let i = 0; i < 4; i++) g.fillRect(14 + i * 101, 14, 90, 692);
+      g.fillStyle(0x5a321a).fillRect(40, 90, 340, 220).fillRect(40, 400, 340, 230);
+      g.fillStyle(0x8a5530).fillRect(56, 106, 308, 188).fillRect(56, 416, 308, 198);
+      g.fillStyle(0xffd27a).fillCircle(372, 380, 16);
+      g.lineStyle(10, 0x2b1a0e).strokeRect(0, 0, 420, 720);
+      g.generateTexture('door', 420, 720);
+    }
     g.destroy();
   }
 }

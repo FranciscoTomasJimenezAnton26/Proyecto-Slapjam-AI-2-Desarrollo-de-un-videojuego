@@ -1,6 +1,7 @@
 // Punto de entrada: crea el juego en formato vertical 720×1280 que se escala a cualquier pantalla.
+// index.html?canvas fuerza el modo Canvas (útil en ordenadores sin aceleración gráfica)
 const game = new Phaser.Game({
-  type: Phaser.AUTO,
+  type: new URLSearchParams(location.search).has('canvas') ? Phaser.CANVAS : Phaser.AUTO,
   parent: 'game',
   backgroundColor: CONFIG.COLORS.bg,
   width: CONFIG.WIDTH,
@@ -11,7 +12,7 @@ const game = new Phaser.Game({
   },
   input: { activePointers: 2 },
   render: { antialias: true },
-  scene: [BootScene, MenuScene, PlayScene, GameOverScene, DebugScene],
+  scene: [BootScene, MenuScene, PlayScene, ResultsScene, DebugScene],
 });
 
 // Cada toque reactiva el audio: los iPhone lo suspenden al cambiar de app o bloquear la pantalla.
