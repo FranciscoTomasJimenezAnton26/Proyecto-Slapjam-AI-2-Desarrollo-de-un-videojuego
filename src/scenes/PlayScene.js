@@ -257,7 +257,6 @@ class PlayScene extends Phaser.Scene {
     const s = this.speed();
     this.time.delayedCall(90 * s, () => {
       Sfx.play(this, 'slam');
-      Sfx.play(this, 'growl', { volume: 0.4 });
       Fx.shake(this, 0.012, 140);
       Fx.vibrate(30);
       Fx.burst(this, DOOR.x + DOOR.width / 2 - 20, DOOR.cy, 0xffffff, 10);
@@ -268,7 +267,6 @@ class PlayScene extends Phaser.Scene {
 
   monsterGetsIn(v, title) {
     this.miss(title, CLUE_HINTS[v.def.clue]);
-    Sfx.play(this, 'laugh');
     Fx.flash(this, CONFIG.COLORS.bad, 200);
     Fx.shake(this, 0.03, 300);
     v.setDepth(150);
@@ -282,7 +280,6 @@ class PlayScene extends Phaser.Scene {
     this.time.delayedCall(90, () => {
       Sfx.play(this, 'slam');
       Fx.shake(this, 0.012, 140);
-      this.time.delayedCall(120, () => Sfx.play(this, 'cry'));
       this.miss('THAT WAS A KID!', 'Only monsters have a clue');
     });
     this.time.delayedCall(700, () => this.done(v));
@@ -295,7 +292,6 @@ class PlayScene extends Phaser.Scene {
     v.x = DOOR.x; v.angle = 0;
     if (v.isMonster) { this.monsterGetsIn(v, 'TOO SLOW!'); return; }
     this.miss('TOO SLOW!', 'The kid got tired of waiting');
-    Sfx.play(this, 'cry');
     this.tweens.add({ targets: v, x: DOOR.x - 420, duration: 380, ease: 'Quad.In' });
     this.time.delayedCall(380, () => this.closeDoor());
     this.time.delayedCall(700, () => this.done(v));
