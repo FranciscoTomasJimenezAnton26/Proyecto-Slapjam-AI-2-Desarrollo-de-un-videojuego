@@ -30,7 +30,7 @@ but some of them are REAL monsters in disguise.
 
 Swipe RIGHT to give candy. Swipe LEFT to slam the door.
 Spot the clues: a tail, glowing eyes, floating feet…
-Serve 30 visitors as fast as you can and earn your rank!
+Serve 15 visitors as fast as you can and earn your rank!
 
 How to play
 - Swipe right: give candy

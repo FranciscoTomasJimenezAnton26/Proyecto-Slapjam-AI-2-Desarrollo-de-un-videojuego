@@ -2,7 +2,7 @@
 
 ## ✅ Tema: **SPEED** · Juego: **Doorbell Dash**
 Decidido el jueves 29 a las 16:10.
-- **Speedrun:** 30 visitantes; cuenta el tiempo total. Cronómetro grande, comparación en directo con tu mejor marca ("−1.20 vs best") y rangos S–D por tiempo.
+- **Speedrun:** 15 visitantes (eran 30; se hacía pesado); cuenta el tiempo total. Cronómetro grande, comparación en directo con tu mejor marca ("−1.20 vs best") y rangos S–D por tiempo.
 - **Sugar Rush:** cada 3 aciertos seguidos sube un nivel (máx. 5). Las pausas y animaciones se acortan, la música se acelera, aparecen líneas de velocidad. Un fallo lo corta.
 - **Paciencia:** cada visitante tiene una barra que se vacía. Si dudas, el monstruo se cuela solo o el niño se va. Cuenta como error.
 - Errores: +3 s. La bombilla enseña la sombra verdadera (cuesta tiempo, porque la paciencia sigue corriendo).

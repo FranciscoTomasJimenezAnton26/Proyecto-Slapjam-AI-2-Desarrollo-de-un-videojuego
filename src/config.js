@@ -5,7 +5,7 @@ const CONFIG = {
   SWIPE_COMMIT_DISTANCE: 140, // al recorrer esto, el swipe se dispara sin esperar a soltar el dedo
   SWIPE_MIN_DISTANCE: 60,     // distancia mínima de un "flick" corto y rápido
   SWIPE_MAX_TIME: 400,        // duración máxima de ese flick (ms)
-  STORAGE_KEY: 'doorbell-dash',
+  STORAGE_KEY: 'doorbell-dash-15', // cambia la clave si cambian las reglas, para no comparar con récords viejos
 
   COLORS: {
     bg: 0x0d0a14,
@@ -26,7 +26,7 @@ const CONFIG = {
 
   // ---------- Reglas de Doorbell Dash ----------
   GAME: {
-    VISITORS: 30,             // visitantes por partida
+    VISITORS: 15,             // visitantes por partida
     MONSTER_CHANCE: 0.45,     // probabilidad de que el visitante sea un monstruo
     PENALTY_MS: 3000,         // segundos que suma cada error al cronómetro
 
@@ -45,10 +45,10 @@ const CONFIG = {
 
     // Rangos según el tiempo final (ms). Ajustar jugando.
     RANKS: [
-      { rank: 'S', max: 45000, title: 'King of Halloween', color: '#ffd27a' },
-      { rank: 'A', max: 55000, title: 'Monster Hunter', color: '#6cff8a' },
-      { rank: 'B', max: 68000, title: 'Brave Neighbor', color: '#7ad7ff' },
-      { rank: 'C', max: 85000, title: 'Clumsy Candy Giver', color: '#c9a0ff' },
+      { rank: 'S', max: 24000, title: 'King of Halloween', color: '#ffd27a' },
+      { rank: 'A', max: 30000, title: 'Monster Hunter', color: '#6cff8a' },
+      { rank: 'B', max: 37000, title: 'Brave Neighbor', color: '#7ad7ff' },
+      { rank: 'C', max: 46000, title: 'Clumsy Candy Giver', color: '#c9a0ff' },
       { rank: 'D', max: Infinity, title: 'Haunted House', color: '#ff4d6d' },
     ],
   },

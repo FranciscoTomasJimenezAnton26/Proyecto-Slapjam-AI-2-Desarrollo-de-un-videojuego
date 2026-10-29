@@ -1,5 +1,5 @@
 // DOORBELL DASH — la partida.
-// Llegan 30 visitantes. Desliza a la DERECHA para dar caramelos a los niños y a la IZQUIERDA para
+// Llegan 15 visitantes (CONFIG.GAME.VISITORS). Desliza a la DERECHA para dar caramelos a los niños y a la IZQUIERDA para
 // dar un portazo a los monstruos. Cuenta el tiempo total: cada error suma +3 s.
 // Los aciertos seguidos activan el SUGAR RUSH: todo va más rápido (y tu tiempo baja más).
 // Toca la bombilla para ver la sombra verdadera del visitante.
