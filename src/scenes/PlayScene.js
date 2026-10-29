@@ -177,7 +177,7 @@ class PlayScene extends Phaser.Scene {
   nextVisitor() {
     if (this.served >= CONFIG.GAME.VISITORS) { this.finish(); return; }
     this.state = 'ringing';
-    Sfx.play(this, 'bell');
+    Sfx.play(this, 'bell', { volume: 0.45 });
     this.tweens.add({ targets: this.bulb, angle: { from: -12, to: 12 }, duration: 60, yoyo: true, repeat: 1, onComplete: () => this.bulb.setAngle(0) });
     this.time.delayedCall(CONFIG.GAME.GAP_MS * this.speed(), () => this.openDoor());
   }
@@ -191,9 +191,7 @@ class PlayScene extends Phaser.Scene {
 
     this.tweens.killTweensOf(this.door);
     this.tweens.add({ targets: this.door, scaleX: this.doorScale * 0.06, duration: CONFIG.GAME.DOOR_OPEN_MS * this.speed(), ease: 'Quad.Out' });
-    Sfx.play(this, 'whoosh');
-    // "¡Truco o trato!" balbuceado: la misma voz de niño para todos (los monstruos disimulan)
-    if (this.rush < 3) this.time.delayedCall(60, () => Sfx.play(this, `voice${Phaser.Math.Between(1, 3)}`, { volume: 0.6 }));
+    Sfx.play(this, 'whoosh', { volume: 0.5 });
 
     this.patienceTotal = this.patienceFor(this.served);
     this.patienceLeft = this.patienceTotal;
