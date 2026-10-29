@@ -4,10 +4,11 @@
 // Los aciertos seguidos activan el SUGAR RUSH: todo va más rápido (y tu tiempo baja más).
 // Toca la bombilla para ver la sombra verdadera del visitante.
 
-const DOOR = { x: 360, top: 300, bottom: 1020, width: 420 };
+// Hueco de la puerta, medido sobre assets/img/fg-wall.png (720×1280)
+const DOOR = { x: 360, top: 332, bottom: 998, width: 332 };
 DOOR.cy = (DOOR.top + DOOR.bottom) / 2;
 DOOR.height = DOOR.bottom - DOOR.top;
-const BULB = { x: 360, y: 255 };
+const BULB = { x: 360, y: 262 };
 const FEET_Y = DOOR.bottom - 18;
 
 class PlayScene extends Phaser.Scene {
@@ -55,7 +56,7 @@ class PlayScene extends Phaser.Scene {
 
     // Calle (lo que se ve por la puerta)
     if (this.textures.exists('bg-street')) {
-      this.add.image(W / 2, H / 2, 'bg-street').setDisplaySize(W, H).setDepth(0);
+      this.add.image(DOOR.x, DOOR.cy, 'bg-street').setDepth(0); // ya viene al tamaño del hueco
     } else {
       const g = this.add.graphics().setDepth(0);
       g.fillGradientStyle(0x1a1033, 0x1a1033, COLORS.street, COLORS.street, 1);

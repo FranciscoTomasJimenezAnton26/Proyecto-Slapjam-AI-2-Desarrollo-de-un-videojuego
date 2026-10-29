@@ -1,7 +1,7 @@
 // Un visitante en la puerta. Si existe la imagen assets/img/<id>-kid.png (o -monster.png) la usa;
 // si no, dibuja un personaje provisional con formas para poder jugar desde el primer minuto.
 // El punto (x, y) del visitante son SUS PIES.
-const VISITOR_HEIGHT = 560;
+const VISITOR_HEIGHT = 520;
 
 class Visitor extends Phaser.GameObjects.Container {
   constructor(scene, x, y, def, isMonster, clueSize = 1) {
