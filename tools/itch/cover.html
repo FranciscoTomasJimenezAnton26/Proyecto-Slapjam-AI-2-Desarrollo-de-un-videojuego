@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Doorbell Dash · itch.io art</title>
+<!-- Genera la portada (630×500) y el banner (960×300) de la página de itch.io con el arte del juego.
+     Ábrelo con Live Server: ?banner muestra el banner en lugar de la portada. -->
+<style>
+  @font-face { font-family: "Luckiest Guy"; src: url("../../assets/fonts/LuckiestGuy.woff") format("woff"); }
+  @font-face { font-family: "Fredoka"; src: url("../../assets/fonts/Fredoka.woff") format("woff"); font-weight: 300 700; }
+  html, body { margin: 0; background: #0d0a14; }
+  .art { position: relative; overflow: hidden; background: #140c24; }
+  .cover { width: 630px; height: 500px; }
+  .banner { width: 960px; height: 300px; }
+  .layer { position: absolute; }
+  .logo { font-family: "Luckiest Guy", sans-serif; line-height: .86; letter-spacing: 1px; text-align: left; transform: rotate(-5deg); }
+  .logo span { display: block; -webkit-text-stroke: 0; paint-order: stroke fill; }
+  .grad-ghost { background: linear-gradient(#ffffff 15%, #efe6ff 55%, #c9b6ff 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .grad-candy { background: linear-gradient(#fff1a8 12%, #ffb43a 50%, #ff6a00 88%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .stroke { position: absolute; inset: 0; color: #2a0f3d; -webkit-text-stroke: var(--sw) #2a0f3d; filter: drop-shadow(0 var(--sh) 0 #0d0a14); }
+  .word { position: relative; }
+  .streak { position: absolute; height: 12px; border-radius: 6px; background: #ffd27a; box-shadow: 0 3px 0 #2a0f3d; }
+  .tag { font-family: "Fredoka", sans-serif; font-weight: 600; color: #f5ecff; background: rgba(20,12,36,.92);
+         border: 4px solid #3b2463; border-radius: 999px; padding: 6px 18px; white-space: nowrap; box-shadow: 0 5px 0 rgba(0,0,0,.35); }
+  .chip { font-family: "Luckiest Guy", sans-serif; color: #fff; border: 4px solid #2a0f3d; border-radius: 999px; padding: 6px 16px 2px;
+          box-shadow: 0 6px 0 rgba(0,0,0,.4); text-shadow: 0 3px 0 #2a0f3d; -webkit-text-stroke: 1.5px #2a0f3d; paint-order: stroke fill; }
+  .timer { font-family: "Luckiest Guy", sans-serif; color: #fff; background: rgba(20,12,36,.92); border: 4px solid #3b2463; border-radius: 999px;
+           padding: 8px 18px 2px; text-shadow: 0 4px 0 #0d0a14; -webkit-text-stroke: 2px #2a0f3d; paint-order: stroke fill; }
+  .vs { font-family: "Luckiest Guy", sans-serif; color: #ff4d6d; -webkit-text-stroke: 3px #2a0f3d; paint-order: stroke fill; text-shadow: 0 4px 0 #0d0a14; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+const banner = location.search.includes('banner');
+const W = banner ? 960 : 630, H = banner ? 300 : 500;
+const root = document.getElementById('root');
+const art = document.createElement('div');
+art.className = 'art ' + (banner ? 'banner' : 'cover');
+root.appendChild(art);
+const img = (src, css) => { const i = document.createElement('img'); i.src = src; i.className = 'layer'; Object.assign(i.style, css); art.appendChild(i); return i; };
+const el = (cls, html, css) => { const d = document.createElement('div'); d.className = 'layer ' + cls; d.innerHTML = html; Object.assign(d.style, css); art.appendChild(d); return d; };
+const A = '../../assets/img/';
+
+// Pared del juego con el hueco de la puerta; la calle se ve por el hueco. Hueco en la pared: x 195-524, y 332-998 (720×1280)
+const s = banner ? 0.68 : 0.78;                       // escala de la pared
+const doorX = banner ? 600 : 318;                     // donde queda el borde izquierdo del hueco en la imagen final
+const wallLeft = doorX - 195 * s, wallTop = banner ? -205 : -205;
+img(A + 'bg-street.png', { left: (doorX - 20 * s) + 'px', top: (wallTop + 332 * s) + 'px', width: (367 * s) + 'px', height: (662 * s) + 'px' });
+img(A + 'fg-wall.png', { left: wallLeft + 'px', top: wallTop + 'px', width: (720 * s) + 'px', height: (1280 * s) + 'px', zIndex: 3 });
+
+// Los dos visitantes: un niño de verdad y un monstruo disfrazado, en el umbral
+const vh = banner ? 270 : 330;
+const feet = banner ? H + vh * 0.12 : wallTop + 990 * s;
+img(A + 'ghost-kid.png', { height: vh + 'px', left: (doorX + 330 * s / 2 - vh * 0.62 - 6) + 'px', top: (feet - vh) + 'px', zIndex: 2 });
+img(A + 'witch-monster.png', { height: vh + 'px', left: (doorX + 330 * s / 2 + 2) + 'px', top: (feet - vh) + 'px', zIndex: 2 });
+
+// Viñeta para que el logo se lea
+el('', '', { inset: 0, zIndex: 4, background: banner
+  ? 'linear-gradient(90deg, rgba(13,10,20,.92) 0%, rgba(13,10,20,.75) 45%, rgba(13,10,20,0) 62%)'
+  : 'linear-gradient(90deg, rgba(13,10,20,.95) 0%, rgba(13,10,20,.8) 40%, rgba(13,10,20,0) 58%), linear-gradient(0deg, rgba(13,10,20,.85), rgba(13,10,20,0) 30%)' });
+
+// Logo
+const arrow = (dir) => `<svg width="30" height="22" viewBox="-16 -12 32 24" style="vertical-align:-2px;${dir < 0 ? 'transform:scaleX(-1)' : ''}">
+  <path d="M-13,-5 H1 V-11 L14,0 L1,11 V5 H-13 Z" fill="#fff" stroke="#2a0f3d" stroke-width="3.5" stroke-linejoin="round"/></svg>`;
+const logo = (top, left, s1, s2) => {
+  const word = (txt, size, grad) => `<span class="word" style="font-size:${size}px;--sw:${Math.round(size * 0.16)}px;--sh:${Math.round(size * 0.08)}px">
+     <span class="stroke">${txt}</span><span class="${grad}" style="position:relative">${txt}</span></span>`;
+  return el('logo', word('DOORBELL', s1, 'grad-ghost') + word('DASH!', s2, 'grad-candy'), { left: left + 'px', top: top + 'px', zIndex: 6 });
+};
+if (banner) {
+  [[40, 168, 120], [20, 196, 160], [52, 224, 100]].forEach(([l, t, w]) => el('streak', '', { left: l + 'px', top: t + 'px', width: w + 'px', zIndex: 5, transform: 'rotate(-5deg)' }));
+  logo(44, 150, 86, 132);
+  el('tag', 'Kid or monster? Decide FAST!', { left: '150px', top: '246px', fontSize: '22px', zIndex: 6 });
+  el('timer', '0:24.15', { left: '518px', top: '238px', fontSize: '30px', zIndex: 6, transform: 'rotate(4deg)' });
+} else {
+  [[14, 218, 110], [-6, 246, 150], [24, 274, 90]].forEach(([l, t, w]) => el('streak', '', { left: l + 'px', top: t + 'px', width: w + 'px', zIndex: 5, transform: 'rotate(-5deg)' }));
+  logo(70, 30, 74, 124);
+  el('tag', 'Kid or monster?<br>Decide <b style="color:#ff8a1f">FAST!</b>', { left: '34px', top: '322px', fontSize: '25px', zIndex: 6, borderRadius: '22px', whiteSpace: 'normal', lineHeight: '1.15', padding: '10px 18px' });
+  el('chip', 'TREAT ' + arrow(1), { left: '34px', top: '418px', fontSize: '26px', background: '#2fcf5a', zIndex: 6 });
+  el('chip', arrow(-1) + ' SLAM', { left: '178px', top: '418px', fontSize: '26px', background: '#d61f45', zIndex: 6 });
+  el('timer', '0:24.15', { left: '444px', top: '22px', fontSize: '32px', zIndex: 6, transform: 'rotate(4deg)' });
+  el('vs', '?', { left: '452px', top: '338px', fontSize: '64px', zIndex: 6, transform: 'rotate(8deg)' });
+}
+</script>
+</body>
+</html>

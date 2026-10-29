@@ -45,10 +45,10 @@ const CONFIG = {
 
     // Rangos según el tiempo final (ms). Ajustar jugando.
     RANKS: [
-      { rank: 'S', max: 24000, title: 'King of Halloween', color: '#ffd27a' },
-      { rank: 'A', max: 30000, title: 'Monster Hunter', color: '#6cff8a' },
-      { rank: 'B', max: 37000, title: 'Brave Neighbor', color: '#7ad7ff' },
-      { rank: 'C', max: 46000, title: 'Clumsy Candy Giver', color: '#c9a0ff' },
+      { rank: 'S', max: 28000, title: 'King of Halloween', color: '#ffd27a' },
+      { rank: 'A', max: 33000, title: 'Monster Hunter', color: '#6cff8a' },
+      { rank: 'B', max: 40000, title: 'Brave Neighbor', color: '#7ad7ff' },
+      { rank: 'C', max: 50000, title: 'Clumsy Candy Giver', color: '#c9a0ff' },
       { rank: 'D', max: Infinity, title: 'Haunted House', color: '#ff4d6d' },
     ],
   },

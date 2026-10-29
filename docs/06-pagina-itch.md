@@ -1,64 +1,78 @@
-# Página de itch.io
+# Página de itch.io y entrega
 
-## Configuración del proyecto
-- **Kind of project:** HTML.
-- **Subida:** zip con el **contenido** de la carpeta del juego (`index.html` en la raíz del zip, sin la carpeta `docs/`).
-- Marcar **This file will be played in the browser**.
-- **Embed options:**
-  - Viewport: 450 × 800 (misma proporción que 720×1280, cabe en pantallas de ordenador).
-  - **Mobile friendly**, orientación **Portrait**.
-  - **Fullscreen button** activado.
-- **Classification:** Games · Genre: Action / Casual.
-- **Tags:** halloween, casual, mobile, one-button, arcade, ai, short, funny.
-- **Visibility:** Draft hasta la entrega; Public al entregar.
+Todo el material está en la carpeta [`itch/`](../itch/):
 
-## Crear el zip (desde la carpeta del repo)
-En Windows: selecciona `index.html`, `lib`, `src` y `assets` → clic derecho → Comprimir en archivo ZIP.
+| Archivo | Para qué |
+|---|---|
+| `cover.png` (630×500) | **Cover image**: lo que se ve en la lista de juegos de la jam |
+| `banner.png` | Cabecera de la página (en *Edit theme*) |
+| `screenshot-1…5.png` (720×1280) | **Screenshots** |
+| `gameplay.gif` (12 s, 3 MB) | Primera captura: es lo que más convence para jugar |
+| `gameplay-full.mp4` | Partida completa, por si quieres subirla a YouTube como tráiler |
+| `description.html` | Descripción en inglés lista para copiar y pegar |
 
-## Imágenes de la página
-- **Portada (cover):** 630×500. Título del juego + un visitante con su pista visible.
-- **Capturas:** 3–5, en vertical, enseñando la puerta, un portazo y la pantalla de rango.
-- **GIF corto** de 5–10 s jugando: es lo que más convence a los jueces para abrir el juego.
+Para regenerar la portada o el banner: `tools/itch/cover.html` (y `?banner`).
 
-## Texto de la página (plantilla, en inglés para llegar a los jueces)
+---
 
-```
-[TÍTULO DEL JUEGO]
+## 1 · Subir la versión final del juego
+1. `git pull` y doble clic en `tools/empaquetar.bat` → `build/juego-itch.zip`.
+2. En itch.io → tu proyecto → **Edit game** → en *Uploads* borra el zip viejo (icono de papelera) y sube el nuevo.
+3. Marca **This file will be played in the browser**.
 
-It's Halloween night. The doorbell rings. Trick-or-treaters are at the door…
-but some of them are REAL monsters in disguise.
+## 2 · Datos del proyecto (Edit game)
+| Campo | Qué poner |
+|---|---|
+| **Title** | `Doorbell Dash` |
+| **Project URL** | `doorbell-dash` |
+| **Short description or tagline** | `Kid or monster? Swipe fast! A Halloween speedrun at your front door.` |
+| **Classification** | Games |
+| **Kind of project** | HTML |
+| **Release status** | Released |
+| **Pricing** | No payments |
+| **Embed options** | Embed in page · Manually set size **450 × 800** · Mobile friendly **Portrait** · Fullscreen button ✔ · Automatically start ✘ · Scrollbars ✘ |
+| **Description** | Abre `itch/description.html` en el navegador → Ctrl+A → Ctrl+C → pega aquí. Cambia `[YOUR NAME]` por tu nombre y borra la nota morada |
+| **Genre** | Action |
+| **Tags** (máx. 10) | `halloween`, `speedrun`, `casual`, `arcade`, `mobile`, `swipe`, `cute`, `funny`, `touch-friendly`, `short` |
+| **AI generation disclosure** | **Yes** → marca *Graphics*, *Sound* (la música), *Code* y *Text* |
+| **Community** | Comments activados (los jueces a veces dejan opiniones) |
+| **Cover image** | `itch/cover.png` |
+| **Gameplay video** | Opcional: sube `gameplay-full.mp4` a YouTube y pega el enlace |
+| **Screenshots** | Sube en este orden: `gameplay.gif`, `screenshot-2-play`, `screenshot-3-bulb`, `screenshot-4-busted`, `screenshot-5-results`, `screenshot-1-menu` |
+| **Metadata → Made with** | Phaser |
+| **Metadata → Inputs** | Touchscreen, Mouse, Keyboard |
+| **Metadata → Average session** | A few minutes |
+| **Metadata → Languages** | English |
+| **Visibility** | **Public** (al entregar) |
 
-Swipe RIGHT to give candy. Swipe LEFT to slam the door.
-Spot the clues: a tail, glowing eyes, floating feet…
-Serve 15 visitors as fast as you can and earn your rank!
+Pulsa **Save**.
 
-How to play
-- Swipe right: give candy
-- Swipe left: slam the door
-- Tap the porch light: reveal their true shadow (costs time)
-- Every mistake adds +3 seconds
+## 3 · Tema de la página (Edit theme)
+En la página del juego, arriba, pulsa **Edit theme**:
 
-Best on mobile in portrait. On desktop, use the arrow keys.
+| Opción | Valor |
+|---|---|
+| **Banner** | sube `itch/banner.png` |
+| **Background** (fondo) | `#0D0A14` |
+| **Background 2** (columna) | `#140C24` |
+| **Text** | `#F5ECFF` |
+| **Link** | `#FF8A1F` |
+| **Button** | `#FF8A1F` |
+| **Font** | la más redondeada que te ofrezca (p. ej. *Nunito* o *Quicksand*) |
+| **Screenshots** | en la columna lateral |
 
-Made in 48 hours for Slapjam #2. Theme: [TEMA] — [una frase explicando cómo lo interpretamos].
+Pulsa **Save theme**.
 
-AI tools used
-- Claude (Anthropic): game code and design
-- [Herramienta]: character and background art
-- [Herramienta]: sound effects and voices
-- [Herramienta]: music
+## 4 · Entregar a la jam
+1. Ve a la página de la jam → **Submit your project** → elige *Doorbell Dash*.
+2. Rellena el **email privado de contacto para premios** (solo lo ven los organizadores).
+3. Rellena la **lista de herramientas** del formulario: Claude, Google Gemini, Phaser.
+4. Envía. Puedes **sustituir el zip del juego todas las veces que quieras hasta el sábado a las 16:00** (hora de Madrid).
 
-Sound effects based on Kenney's Interface Sounds, RPG Audio and Impact Sounds (CC0) — www.kenney.nl
-Fonts: Luckiest Guy (Apache 2.0) and Fredoka (OFL)
-
-Made by [Tu nombre]
-```
-
-## Al entregar a la jam
-- [ ] El juego se abre y se juega en el navegador del móvil, en vertical
-- [ ] Funciona el sonido después del primer toque
-- [ ] Campo privado de **email de contacto para premios** relleno
-- [ ] **Lista de herramientas** del formulario rellena
-- [ ] Créditos de IA en la página
-- [ ] Proyecto en **Public**
-- [ ] Entregado antes de las 16:00 del sábado (objetivo: 13:00)
+## 5 · Comprobación final (en el móvil y con otra cuenta o en incógnito)
+- [ ] La página se ve con el banner, la portada y el GIF
+- [ ] **Run game** abre el juego en vertical y se ve entero
+- [ ] Suena después del primer toque
+- [ ] Una partida completa funciona de principio a fin
+- [ ] Email de premios y lista de herramientas rellenos
+- [ ] El proyecto está en **Public** y aparece en la lista de entradas de la jam
