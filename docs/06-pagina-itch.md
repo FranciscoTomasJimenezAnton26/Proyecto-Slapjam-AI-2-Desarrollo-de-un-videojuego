@@ -48,7 +48,7 @@ AI tools used
 - [Herramienta]: sound effects and voices
 - [Herramienta]: music
 
-Sound effects based on Kenney's Interface Sounds (CC0) — www.kenney.nl
+Sound effects based on Kenney's Interface Sounds, RPG Audio and Impact Sounds (CC0) — www.kenney.nl
 Fonts: Luckiest Guy (Apache 2.0) and Fredoka (OFL)
 
 Made by [Tu nombre]

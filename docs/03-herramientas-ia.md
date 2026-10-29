@@ -74,7 +74,7 @@ Otras opciones (por si Gemini falla):
 | Canva Pro | Recorte de fondos y página de itch (si se usa) | Pro |
 | Gemini (Lyria) | Música de la partida | Pago |
 | Claude (Anthropic) | Generador de efectos por síntesis (portazo, whoosh) y montaje del sonido | |
-| Kenney Interface Sounds (CC0, no IA) | Base de timbre, caramelos, aciertos, errores y botones | Gratis |
+| Kenney Interface Sounds, RPG Audio e Impact Sounds (CC0, no IA) | Puerta, portazo, timbre, caramelos, aciertos, errores y botones | Gratis |
 | | | |
 
 ## Fuentes
