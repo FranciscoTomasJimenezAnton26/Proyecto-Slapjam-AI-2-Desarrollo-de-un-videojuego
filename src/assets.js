@@ -5,7 +5,7 @@
 //   assets/img/bg-street.png   calle vista por la puerta (720×1280)
 //   assets/img/fg-wall.png     pared del recibidor con el hueco de la puerta transparente (720×1280)
 //   assets/img/door.png        la hoja de la puerta (vertical)
-//   assets/sfx/<clave>.wav     tap, bell, slam, candy, growl, cry, laugh, count, go, rush, bad, whoosh
+//   assets/sfx/<clave>.wav     tap, bell, slam, candy, growl, cry, laugh, count, go, rush, bad, whoosh, voice1-3
 //   assets/music/music.mp3     música en bucle de la partida
 // Si un archivo no existe, el juego usa la versión provisional y avisa en la consola (F12).
 //
@@ -29,7 +29,7 @@ const ASSETS = {
 
   // Claves que se buscan automáticamente (ver arriba)
   autoImages: ['bg-street', 'fg-wall', 'door'],
-  autoSfx: ['tap', 'bell', 'slam', 'candy', 'growl', 'cry', 'laugh', 'count', 'go', 'rush', 'bad', 'whoosh'],
+  autoSfx: ['tap', 'bell', 'slam', 'candy', 'growl', 'cry', 'laugh', 'count', 'go', 'rush', 'bad', 'whoosh', 'voice1', 'voice2', 'voice3'],
 
   // Fuentes de Google Fonts: se cargan en index.html; aquí solo se espera a que estén listas.
   fonts: [
