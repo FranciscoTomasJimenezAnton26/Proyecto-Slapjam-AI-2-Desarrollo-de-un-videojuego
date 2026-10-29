@@ -1,5 +1,23 @@
 // Elementos de interfaz reutilizables.
 const UI = {
+  // Fondo de recibidor con la puerta cerrada (si existe el arte) y un velo oscuro para que se lea el texto.
+  backdrop(scene, dim = 0.55) {
+    const { WIDTH: W, HEIGHT: H } = CONFIG;
+    if (scene.textures.exists('fg-wall')) {
+      if (scene.textures.exists('door')) scene.add.image(DOOR.x, DOOR.cy, 'door').setDisplaySize(DOOR.width, DOOR.height);
+      scene.add.image(W / 2, H / 2, 'fg-wall').setDisplaySize(W, H);
+    }
+    scene.add.rectangle(W / 2, H / 2, W, H, 0x0d0a14, dim);
+  },
+
+  // Panel redondeado semitransparente detrás de un bloque de texto
+  panel(scene, x, y, w, h, alpha = 0.78) {
+    const g = scene.add.graphics();
+    g.fillStyle(0x0d0a14, alpha).fillRoundedRect(x - w / 2, y - h / 2, w, h, 28);
+    g.lineStyle(3, 0x3b2463, 1).strokeRoundedRect(x - w / 2, y - h / 2, w, h, 28);
+    return g;
+  },
+
   // Botón de sonido en una esquina. Llama a UI.muteButton(this) en el create() de una escena.
   muteButton(scene, x = CONFIG.WIDTH - 60, y = CONFIG.HEIGHT - 60) {
     Sfx.applyMute(scene);

@@ -6,6 +6,8 @@ class MenuScene extends Phaser.Scene {
     const { WIDTH: W, HEIGHT: H, COLORS, FONT } = CONFIG;
     Fx.fadeIn(this);
     this.starting = false;
+    UI.backdrop(this, 0.45);
+    UI.panel(this, W / 2, 725, 660, 470);
 
     const title = this.add.text(W / 2, 250, 'DOORBELL\nDASH', {
       fontFamily: FONT, fontSize: '108px', fontStyle: 'bold', align: 'center', lineSpacing: -10,

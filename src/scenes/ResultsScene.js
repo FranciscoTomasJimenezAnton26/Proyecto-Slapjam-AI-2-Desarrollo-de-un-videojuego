@@ -16,6 +16,7 @@ class ResultsScene extends Phaser.Scene {
     const r = this.result;
     Fx.fadeIn(this);
     Sfx.musicRate(1);
+    UI.backdrop(this, 0.7);
 
     const prevPb = Records.load();
     const isPb = Records.submit(r.time, r.splits);
