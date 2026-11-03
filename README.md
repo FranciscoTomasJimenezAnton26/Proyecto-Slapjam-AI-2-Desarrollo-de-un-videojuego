@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://franciscotomasjimenezanton26.github.io/GAME/"><b>▶ PLAY IN YOUR BROWSER</b></a>
+  <a href="https://franciscotomasjimenezanton26.github.io/Proyecto-Slapjam-AI-2-Desarrollo-de-un-videojuego/"><b>▶ PLAY IN YOUR BROWSER</b></a>
   &nbsp;·&nbsp;
   <a href="https://fjimenez22.itch.io/doorbell-dash">itch.io page</a>
   &nbsp;·&nbsp;
@@ -106,7 +106,7 @@ The **code** is released under the [MIT License](LICENSE). Images and music are 
 
 **Doorbell Dash** es un juego de Halloween hecho en 48 horas para la Slapjam #2 (tema: velocidad). Desliza a la derecha para dar caramelos a los niños y a la izquierda para dar un portazo a los monstruos. Toca para encender la luz y ver su sombra de verdad. Atiende a 15 visitantes lo más rápido que puedas: cada error suma 3 segundos.
 
-**Jugar:** https://franciscotomasjimenezanton26.github.io/GAME/
+**Jugar:** https://franciscotomasjimenezanton26.github.io/Proyecto-Slapjam-AI-2-Desarrollo-de-un-videojuego/
 
 **Probarlo en tu ordenador:** abre la carpeta en VS Code con la extensión Live Server (clic derecho en `index.html` → *Open with Live Server*).
 
